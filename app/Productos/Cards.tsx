@@ -1,0 +1,62 @@
+import React, { useState } from 'react';
+import ProductCard from './ProductCard';
+import Cart from './Cart';
+import { useCart } from './CartContext';
+
+export interface Product {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  rating: number;
+  filter: string;
+}
+
+export interface CartItem {
+  product: Product;
+  quantity: number;
+}
+
+interface CardsProps {
+  selectedFilter: string | null;
+  products: Product[];
+}
+
+function Cards({ selectedFilter, products }: CardsProps) {
+  const { cart, addToCart, removeFromCart } = useCart();
+  const [isCartOpen, setCartOpen] = useState(false);
+
+  // Detiene la propagación del evento clic para evitar el cierre cuando se hace clic dentro del carrito
+  const stopPropagation = (e: React.MouseEvent) => e.stopPropagation();
+
+  return (
+    <div className="container mx-auto p-4">
+      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
+        {products.map(product => (
+          <div key={product.id} className="mb-6">
+            <ProductCard
+              product={product}
+              onAddToCart={() => {
+                addToCart(product);
+                setCartOpen(true);
+              }}
+            />
+          </div>
+        ))}
+      </div>
+
+      {isCartOpen && (
+        // Contenedor para detectar clics fuera del carrito
+        <div className="fixed inset-0 z-40" onClick={() => setCartOpen(false)}>
+          <div className="fixed top-0 right-0 p-4 z-50" onClick={stopPropagation}>
+            <div className="bg-white border p-4 shadow-lg rounded-md">
+              <Cart cartItems={cart} onClose={() => setCartOpen(false)} removeFromCart={removeFromCart} />
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default Cards;
