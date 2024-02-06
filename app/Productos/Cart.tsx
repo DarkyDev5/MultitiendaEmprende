@@ -2,6 +2,7 @@ import React from "react";
 import { Product } from "./types";
 import { formatCurrency } from "./PrecioCards";
 import Link from "next/link";
+import Image from 'next/image';
 
 export interface CartItem {
   product: Product;
@@ -70,11 +71,7 @@ export function Cart({ cartItems, onClose, removeFromCart }: CartProps) {
             >
               <div className="w-full px-4 mb-6 md:w-1/3 md:mb-0">
                 <div className="flex w-full h-96 md:h-32 md:w-32">
-                  <img
-                    src={cartItem.product.image}
-                    alt=""
-                    className="object-cover w-full h-full rounded-md"
-                  />
+                <Image src={cartItem.product.image} alt="Imagen del producto" width={500} height={300} className="object-cover rounded-md" />
                 </div>
               </div>
               <div className="w-full px-4 md:2/3">

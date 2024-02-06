@@ -36,8 +36,7 @@ const CardComponent: React.FC<{ card: Card, isHovered: boolean, onMouseEnter: ()
       <Image
         src={card.imageSrc}
         alt={card.title}
-        layout="fill"
-        objectFit="cover"
+      fill
         className="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:rotate-12 rounded-lg"
       />
     </div>

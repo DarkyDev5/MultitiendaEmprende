@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -9,15 +9,13 @@ import {
 } from "@heroicons/react/24/outline";
 import MobileMenu from "../Menu/MobileMenu";
 import DropdownMenu from "../Menu/DropdownMenu";
-import CartInterface from '../Productos/CartInterface'
+import CartInterface from "../Productos/CartInterface";
 
-import { CartItem, Product} from  "../Productos/Cards"
+import { CartItem, Product } from "../Productos/Cards";
 import Cart from "../Productos/Cart";
-import { useCart } from '../Productos/CartContext';
-
-
-
-
+import { useCart } from "../Productos/CartContext";
+import Image from "next/image";
+import ReactCountryFlag from "react-country-flag";
 
 export default function Navbar() {
   const { cart, addToCart, removeFromCart } = useCart(); // Usando el contexto del carrito
@@ -61,10 +59,12 @@ export default function Navbar() {
               <div className="ml-4 flex lg:ml-0">
                 <a href="/">
                   <span className="sr-only">Your Company</span>
-                  <img
+                  <Image
                     className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                    alt=""
+                    src="/logo.svg"
+                    alt="Descripción de la imagen"
+                    width={500}
+                    height={300}
                   />
                 </a>
               </div>
@@ -94,12 +94,12 @@ export default function Navbar() {
                     href="#"
                     className="flex items-center text-gray-700 hover:text-gray-800"
                   >
-                    <img
-                      src="https://tailwindui.com/img/flags/flag-canada.svg"
-                      alt=""
+                    <ReactCountryFlag
+                      countryCode="CO"
+                      svg
                       className="block h-auto w-5 flex-shrink-0"
                     />
-                    <span className="ml-3 block text-sm font-medium">CAD</span>
+                    <span className="ml-3 block text-sm font-medium">COP</span>
                     <span className="sr-only">, change currency</span>
                   </a>
                 </div>
@@ -117,27 +117,35 @@ export default function Navbar() {
 
                 {/* Cart */}
                 <div className="ml-4 flow-root lg:ml-6">
-          <a href="#" className="group -m-2 flex items-center p-2 " onClick={handleCartToggle}>
-            <ShoppingBagIcon
-              className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-              aria-hidden="true"
-            />
-            <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-              {cart.length} {/* Aquí muestra la cantidad de elementos en el carrito */}
-            </span>
-            <span className="sr-only">items in cart, view bag</span>
-          </a>
+                  <a
+                    href="#"
+                    className="group -m-2 flex items-center p-2 "
+                    onClick={handleCartToggle}
+                  >
+                    <ShoppingBagIcon
+                      className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                      aria-hidden="true"
+                    />
+                    <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
+                      {cart.length}{" "}
+                      {/* Aquí muestra la cantidad de elementos en el carrito */}
+                    </span>
+                    <span className="sr-only">items in cart, view bag</span>
+                  </a>
 
-          {isCartOpen && (
-            <Cart cartItems={cart} onClose={handleCartToggle} removeFromCart={removeFromCart} />
-          )}
+                  {isCartOpen && (
+                    <Cart
+                      cartItems={cart}
+                      onClose={handleCartToggle}
+                      removeFromCart={removeFromCart}
+                    />
+                  )}
                 </div>
               </div>
             </div>
           </div>
         </nav>
       </header>
-
     </div>
   );
 }

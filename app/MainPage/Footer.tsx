@@ -1,6 +1,11 @@
 "use client"
 import { FaFacebookF, FaTwitter, FaInstagram, FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock } from 'react-icons/fa';
-import MapComponent from "./Mapa/MapComponent";
+import dynamic from 'next/dynamic';
+
+// Importa el componente Map de manera dinámica y deshabilita SSR
+const DynamicMapComponent = dynamic(() => import('./Mapa/MapComponent'), {
+  ssr: false
+});
 
 const Footer = () => {
   return (
@@ -29,7 +34,7 @@ const Footer = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
                 <h5 className="text-xl font-bold mb-6">Visítanos En Nuestra Tienda</h5>
-                <MapComponent />
+                <DynamicMapComponent />
               </div>
               <div>
                 <h5 className="text-xl font-bold mb-6">Hora Local</h5>

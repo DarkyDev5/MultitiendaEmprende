@@ -19,13 +19,20 @@ interface CartProviderProps {
 
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const [cart, setCart] = useState<CartItem[]>(() => {
-    const storedCart = localStorage.getItem('cartItems');
-    return storedCart ? JSON.parse(storedCart) : [];
-  });
+    if (typeof window !== 'undefined') {
+      const storedCart = localStorage.getItem('cartItems');
+      return storedCart ? JSON.parse(storedCart) : [];
+    } else {
+      return [];
+    }
+  }); 
 
   
+ 
   useEffect(() => {
-    localStorage.setItem('cartItems', JSON.stringify(cart));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('cartItems', JSON.stringify(cart));
+    }
   }, [cart]);
 
   const addToCart = (product: Product) => {
@@ -51,8 +58,10 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   };
 
   const emptyCart = () => {
-    setCart([]); // Establece el estado del carrito en un array vacío
-    localStorage.removeItem('cartItems'); // Elimina los elementos del carrito del almacenamiento local
+    setCart([]);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('cartItems');
+    }
   };
 
   return (

@@ -26,6 +26,11 @@ const CarouselUp: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false);
   const router = useRouter();
 
+  const imageStyle = {
+    objectFit: "cover",
+    layout: "responsive",
+  }as React.CSSProperties;
+
   const updateIndex = (newIndex: number) => {
     if (newIndex < 0) {
       newIndex = slides.length - 1;
@@ -67,13 +72,13 @@ const CarouselUp: React.FC = () => {
                 <Image
                   src={slides[currentIndex]}
                   alt="Imagen del carrusel"
-                  layout="responsive"
-                  objectFit="cover"
+                  
+                  style={imageStyle}
                   className={`rounded-2xl duration-500 ${
                     isHovered ? "scale-105" : "scale-100"
                   }`}
-                  width={80}
-                  height={80}
+                  width={1500}
+                  height={1500}
                 />
               </div>
             </Link>
