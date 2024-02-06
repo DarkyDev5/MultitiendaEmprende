@@ -1,5 +1,4 @@
-
-"use client"
+"use client";
 // pages/cocina.tsx
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -7,10 +6,11 @@ import Navbar from "../../MainPage/Navbar";
 import Footer from "../../MainPage/Footer";
 import Filter from "../Filter";
 import Cards from "../Cards";
+import { CartProvider } from "../CartContext";
 
 export default function CocinaPage() {
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
-  const pageTitle = 'Cocina';
+  const pageTitle = "Cocina";
 
   const handleFilterClick = (filterName: string | null) => {
     setSelectedFilter(filterName);
@@ -46,25 +46,35 @@ export default function CocinaPage() {
   ];
 
   return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 20 }}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
-      >
-        <div className="relative">
-          <Navbar />
-          <main className="sandbox">
-            {/* Usa Filter y coloca Cards como hijo */}
-            <Filter selectedFilter={selectedFilter} onFilterClick={handleFilterClick} pageTitle={pageTitle} subCategories={cocinaSubCategories}>
-              {/* Cards ahora recibe la categoría y los productos de cocina */}
-              <Cards selectedFilter={selectedFilter} products={cocinaProducts} />
-            </Filter>
-            <Footer />
-          </main>
-        </div>
-      </motion.div>
-    </AnimatePresence>
+    <CartProvider>
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+        >
+          <div className="relative">
+            <Navbar />
+            <main className="sandbox">
+              {/* Usa Filter y coloca Cards como hijo */}
+              <Filter
+                selectedFilter={selectedFilter}
+                onFilterClick={handleFilterClick}
+                pageTitle={pageTitle}
+                subCategories={cocinaSubCategories}
+              >
+                {/* Cards ahora recibe la categoría y los productos de cocina */}
+                <Cards
+                  selectedFilter={selectedFilter}
+                  products={cocinaProducts}
+                />
+              </Filter>
+              <Footer />
+            </main>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+    </CartProvider>
   );
 }

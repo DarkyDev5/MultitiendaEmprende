@@ -6,6 +6,7 @@ import Navbar from "../../MainPage/Navbar";
 import Footer from "../../MainPage/Footer";
 import Filter from "../Filter";
 import Cards from "../Cards";
+import { CartProvider } from "../CartContext";
 
 export default function TecnologiaPage() {
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
@@ -135,7 +136,8 @@ export default function TecnologiaPage() {
   ];
 
   return (
-    <AnimatePresence>
+    <CartProvider>
+<AnimatePresence>
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -155,5 +157,7 @@ export default function TecnologiaPage() {
         </div>
       </motion.div>
     </AnimatePresence>
+    </CartProvider>
+    
   );
 }
