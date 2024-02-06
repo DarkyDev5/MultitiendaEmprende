@@ -1,3 +1,4 @@
+"use client"
 import { FaFacebookF, FaTwitter, FaInstagram, FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock } from 'react-icons/fa';
 import MapComponent from "./Mapa/MapComponent";
 

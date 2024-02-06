@@ -1,3 +1,4 @@
+"use client"
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 import { CartItem, Product } from "./Cards";
 
@@ -22,6 +23,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     return storedCart ? JSON.parse(storedCart) : [];
   });
 
+  
   useEffect(() => {
     localStorage.setItem('cartItems', JSON.stringify(cart));
   }, [cart]);

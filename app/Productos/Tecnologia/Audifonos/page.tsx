@@ -6,10 +6,11 @@ import Navbar from "../../../MainPage/Navbar";
 import Footer from "../../../MainPage/Footer";
 import Filter from "../../Filter";
 import Cards from "../../Cards";
+import { CartProvider } from "../../CartContext";
 
 export default function TecnologiaPage() {
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
-  const pageTitle = "Audífonos"; 
+  const pageTitle = "Audífonos";
   const handleFilterClick = (filterName: string | null) => {
     setSelectedFilter(filterName);
   };
@@ -34,17 +35,16 @@ export default function TecnologiaPage() {
     {
       id: "7",
       name: "Auriculares inalámbricos Bluetooth V5.3, reproducción de 50 horas",
-      price: 79.990,
+      price: 79.99,
       image: "/tecnologia/Audifonos2.jpg",
       rating: 5,
       filter: "Audífonos",
     },
 
-
     {
       id: "10",
       name: "Auriculares inalámbricos Bluetooth V5.3, reproducción de 50 horas",
-      price: 79.990,
+      price: 79.99,
       image: "/tecnologia/Audifonos2.jpg",
       rating: 5,
       filter: "Audífonos",
@@ -53,7 +53,7 @@ export default function TecnologiaPage() {
     {
       id: "12",
       name: "Auriculares inalámbricos Bluetooth V5.3, reproducción de 50 horas",
-      price: 79.990,
+      price: 79.99,
       image: "/tecnologia/Audifonos2.jpg",
       rating: 5,
       filter: "Audífonos",
@@ -62,25 +62,35 @@ export default function TecnologiaPage() {
   ];
 
   return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 20 }}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
-      >
-        <div className="relative">
-          <Navbar />
-          <main className="sandbox">
-            {/* Usa Filter y coloca Cards como hijo */}
-            <Filter selectedFilter={selectedFilter} onFilterClick={handleFilterClick} pageTitle={pageTitle} subCategories={audífonosSubCategories}>
-              {/* Cards ahora recibe la categoría y los productos de tecnología */}
-              <Cards selectedFilter={selectedFilter} products={audífonosProducts} />
-            </Filter>
-            <Footer />
-          </main>
-        </div>
-      </motion.div>
-    </AnimatePresence>
+    <CartProvider>
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+        >
+          <div className="relative">
+            <Navbar />
+            <main className="sandbox">
+              {/* Usa Filter y coloca Cards como hijo */}
+              <Filter
+                selectedFilter={selectedFilter}
+                onFilterClick={handleFilterClick}
+                pageTitle={pageTitle}
+                subCategories={audífonosSubCategories}
+              >
+                {/* Cards ahora recibe la categoría y los productos de tecnología */}
+                <Cards
+                  selectedFilter={selectedFilter}
+                  products={audífonosProducts}
+                />
+              </Filter>
+              <Footer />
+            </main>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+    </CartProvider>
   );
 }

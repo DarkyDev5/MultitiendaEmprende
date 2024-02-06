@@ -1,17 +1,18 @@
-
-
-import Navbar from '../MainPage/Navbar'
+import Navbar from "../MainPage/Navbar";
 import Footer from "../MainPage/Footer";
-import AboutUs from "./AboutUs/aboutus"
-
-
+import AboutUs from "./AboutUs/aboutus";
+import { CartProvider } from "../Productos/CartContext";
 
 export default function About() {
-  return (  
-   <main>
-    <Navbar/>
-    <AboutUs/>
-    <Footer /> 
-  </main>
-  ) 
+  return (
+    <CartProvider>
+    <main>
+    
+        <Navbar />
+        <AboutUs />
+        <Footer />
+      
+    </main>
+    </CartProvider>
+  );
 }
