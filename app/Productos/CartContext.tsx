@@ -1,4 +1,3 @@
-"use client"
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 import { CartItem, Product } from "./Cards";
 
@@ -6,8 +5,8 @@ interface CartContextType {
     cart: CartItem[];
     addToCart: (product: Product) => void;
     removeFromCart: (productId: string) => void;
-    emptyCart: () => void;  // Agrega esta línea
-  }
+    emptyCart: () => void;
+}
 
 export const CartContext = createContext<CartContextType>(null!);
 
@@ -18,21 +17,19 @@ interface CartProviderProps {
 }
 
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
-  const [cart, setCart] = useState<CartItem[]>(() => {
-    if (typeof window !== 'undefined') {
-      const storedCart = localStorage.getItem('cartItems');
-      return storedCart ? JSON.parse(storedCart) : [];
-    } else {
-      return [];
-    }
-  }); 
+  const [cart, setCart] = useState<CartItem[]>([]);
 
-  
- 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('cartItems', JSON.stringify(cart));
+    // Inicializa el estado cart con los elementos del carrito almacenados en localStorage
+    const storedCart = localStorage.getItem('cartItems');
+    if (storedCart) {
+      setCart(JSON.parse(storedCart));
     }
+  }, []);
+
+  useEffect(() => {
+    // Actualiza localStorage cada vez que cambia el estado cart
+    localStorage.setItem('cartItems', JSON.stringify(cart));
   }, [cart]);
 
   const addToCart = (product: Product) => {
@@ -59,9 +56,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
   const emptyCart = () => {
     setCart([]);
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('cartItems');
-    }
+    localStorage.removeItem('cartItems');
   };
 
   return (

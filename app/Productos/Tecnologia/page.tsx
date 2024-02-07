@@ -10,7 +10,7 @@ import { CartProvider } from "../CartContext";
 
 export default function TecnologiaPage() {
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
-  const pageTitle = "Tecnologia"; 
+  const pageTitle = "Tecnologia";
   const handleFilterClick = (filterName: string | null) => {
     setSelectedFilter(filterName);
   };
@@ -40,7 +40,6 @@ export default function TecnologiaPage() {
       rating: 5,
       filter: "Monitores",
     },
-
 
     {
       id: "3",
@@ -77,7 +76,6 @@ export default function TecnologiaPage() {
       rating: 5,
       filter: "Computadores",
     },
-
 
     {
       id: "7",
@@ -137,27 +135,31 @@ export default function TecnologiaPage() {
 
   return (
     <CartProvider>
-<AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 20 }}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
-      >
-        <div className="relative">
-          <Navbar />
-          <main className="sandbox">
-            {/* Usa Filter y coloca Cards como hijo */}
-            <Filter selectedFilter={selectedFilter} onFilterClick={handleFilterClick} pageTitle={pageTitle} subCategories={tecnologiaSubCategories}>
-              {/* Cards ahora recibe la categoría y los productos de tecnología */}
-              <Cards selectedFilter={selectedFilter} products={tecnologiaProducts} />
-            </Filter>
-            <Footer />
-          </main>
-        </div>
-      </motion.div>
-    </AnimatePresence>
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+        >
+          <div className="relative">
+            <Navbar />
+            <main className="sandbox">
+              {/* Usa Filter y coloca Cards como hijo */}
+              <Filter
+                pageTitle={pageTitle}
+              >
+                {/* Cards ahora recibe la categoría y los productos de tecnología */}
+                <Cards
+                  selectedFilter={selectedFilter}
+                  products={tecnologiaProducts}
+                />
+              </Filter>
+              <Footer />
+            </main>
+          </div>
+        </motion.div>
+      </AnimatePresence>
     </CartProvider>
-    
   );
 }

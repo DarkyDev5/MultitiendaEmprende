@@ -1,39 +1,34 @@
-// ProductCard.tsx
-
 import React from "react";
 import { Product } from "./types";
 import { formatCurrency } from "./PrecioCards";
-import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+
 interface ProductCardProps {
   product: Product;
-  onAddToCart: (product: Product) => void; // Asegúrate de que el tipo coincida con la interfaz Product actual
+  onAddToCart: (product: Product) => void;
 }
 
 function ProductCard({ product, onAddToCart }: ProductCardProps) {
-  const isMultiLine = (text: string) => text.split("\n").length > 1;
-
   return (
-    <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col h-full">
+    <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700 flex flex-col h-full transition-shadow duration-500 ease-in-out hover:shadow-2xl">
       <div className="h-[280px] relative overflow-hidden p-20">
         <Image
           src={product.image}
-          alt="Picture of the author"
-          fill
-          sizes="33vw"
+          alt={`Imagen del producto ${product.name}`}
+          layout="fill"
+          
           className="rounded-lg"
         />
       </div>
 
       <div className="flex-grow p-5 flex flex-col">
         <a href="#" className="flex-grow line-clamp-2">
-          <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white  ">
+          <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white   ">
             {product.name}
           </h5>
         </a>
         <div className="flex items-center mt-3 mb-2">
           <div className="flex items-center space-x-1 rtl:space-x-reverse">
-            {/* Aquí puedes agregar el ícono de estrella vacía para completar 5 estrellas */}
             {[...Array(5).keys()].map((index) => (
               <svg
                 key={index}
@@ -55,11 +50,11 @@ function ProductCard({ product, onAddToCart }: ProductCardProps) {
         </div>
         <div className="flex items-center justify-between">
           <span className="text-xl font-bold text-gray-900 dark:text-white">
-          {formatCurrency(product.price)}
+            {formatCurrency(product.price)}
           </span>
           <button
             onClick={() => onAddToCart(product)}
-            className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 transition-colors duration-300 ease-in-out"
+            className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 transition-all duration-300 ease-in-out transform hover:scale-105"
           >
             Cotizar
           </button>
