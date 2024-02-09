@@ -6,44 +6,36 @@ import Navbar from "../../../MainPage/Navbar";
 import Footer from "../../../MainPage/Footer";
 import Filter from "../../Filter";
 import Cards from "../../Cards";
-import { CartProvider } from "../../CartContext";
+import { CartProvider } from "../../CartContext"
+import { useFilter } from "../../Hook/useFilter";
 
-export default function CocinaPage() {
-  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
-  const pageTitle = "Máquina de Obleas para Trabajo Liviano";
+const maquinasObleas2Products = [
+  {
+    id: "1",
+    name: "Maquinas De Obleas Lisa 16CM",
+    price: 150.0,
+    image: "/Cocina/MO lisa 16 cm.png",
+    rating: 4,
+    filter: "Maquinas de Obleas",
+  },
+  {
+    id: "2",
+    name: "Maquinas De",
+    price: 200.0,
+    image: "/Cocina/MO lisa 16 cm.png",
+    rating: 5,
+    filter: "Electrodomésticos",
+  },
+  // Otros productos de cocina...
+];
 
-  const handleFilterClick = (filterName: string | null) => {
-    setSelectedFilter(filterName);
-  };
-
-  // Subcategorías específicas para la página de cocina
-  const cocinaSubCategories = [
-    { name: "Maquinas de Obleas", href: "#" },
-    { name: "Electrodomésticos", href: "#" },
-    { name: "Licuadoras", href: "#" },
-    { name: "Accesorios", href: "#" },
-  ];
-
-  // Productos de cocina
-  const cocinaProducts = [
-    {
-      id: "1",
-      name: "Maquinas De Obleas Lisa 16CM",
-      price: 150.0,
-      image: "/Cocina/MO lisa 16 cm.png",
-      rating: 4,
-      filter: "Maquinas de Obleas",
-    },
-    {
-      id: "2",
-      name: "Maquinas De",
-      price: 200.0,
-      image: "/Cocina/MO lisa 16 cm.png",
-      rating: 5,
-      filter: "Electrodomésticos",
-    },
-    // Otros productos de cocina...
-  ];
+export default function MaquinasObleasPageDos() {
+  const {
+    data: filteredProducts,
+    filterData,
+    sortData,
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  } = useFilter(maquinasObleas2Products);
 
   return (
     <CartProvider>
@@ -57,18 +49,12 @@ export default function CocinaPage() {
           <div className="relative">
             <Navbar />
             <main className="sandbox">
-              {/* Usa Filter y coloca Cards como hijo */}
-              <Filter
-                selectedFilter={selectedFilter}
-                onFilterClick={handleFilterClick}
-                pageTitle={pageTitle}
-                subCategories={cocinaSubCategories}
+            <Filter
+                pageTitle="Tecnologia"
+                onFilter={filterData}
+                onSort={sortData}
               >
-                {/* Cards ahora recibe la categoría y los productos de cocina */}
-                <Cards
-                  selectedFilter={selectedFilter}
-                  products={cocinaProducts}
-                />
+                <Cards products={filteredProducts} selectedFilter={null} />
               </Filter>
               <Footer />
             </main>

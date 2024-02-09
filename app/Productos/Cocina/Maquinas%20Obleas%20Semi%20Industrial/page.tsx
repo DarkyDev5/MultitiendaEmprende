@@ -8,43 +8,35 @@ import Footer from "../../../MainPage/Footer";
 import Filter from "../../Filter";
 import Cards from "../../Cards";
 import { CartProvider } from "../../CartContext";
+import { useFilter } from "../../Hook/useFilter";
 
-export default function CocinaPage() {
-  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
-  const pageTitle = 'Máquinas Obleas Semi Industrial';
+const maquinasObleasProducts = [
+  {
+    id: "1",
+    name: "Maquinas De Obleas Lisa 16CM",
+    price: 150.0,
+    image: "/Cocina/MO lisa 16 cm.png",
+    rating: 4,
+    filter: "Maquinas de Obleas",
+  },
+  {
+    id: "2",
+    name: "Maquinas De",
+    price: 200.0,
+    image: "/Cocina/MO lisa 16 cm.png",
+    rating: 5,
+    filter: "Electrodomésticos",
+  },
+  // Otros productos de cocina...
+];
 
-  const handleFilterClick = (filterName: string | null) => {
-    setSelectedFilter(filterName);
-  };
+export default function MaquinasObleasPage() {
+  const {
+    data: filteredProducts,
+    filterData,
+    sortData,
+  } = useFilter(maquinasObleasProducts);
 
-  // Subcategorías específicas para la página de cocina
-  const cocinaSubCategories = [
-    { name: "Maquinas de Obleas", href: "#" },
-    { name: "Electrodomésticos", href: "#" },
-    { name: "Licuadoras", href: "#" },
-    { name: "Accesorios", href: "#" },
-  ];
-
-  // Productos de cocina
-  const cocinaProducts = [
-    {
-      id: "1",
-      name: "Maquinas De Obleas Lisa 16CM",
-      price: 150.0,
-      image: "/Cocina/MO lisa 16 cm.png",
-      rating: 4,
-      filter: "Maquinas de Obleas",
-    },
-    {
-      id: "2",
-      name: "Maquinas De",
-      price: 200.0,
-      image: "/Cocina/MO lisa 16 cm.png",
-      rating: 5,
-      filter: "Electrodomésticos",
-    },
-    // Otros productos de cocina...
-  ];
 
   return (
    <CartProvider>
@@ -58,11 +50,13 @@ export default function CocinaPage() {
         <div className="relative">
           <Navbar />
           <main className="sandbox">
-            {/* Usa Filter y coloca Cards como hijo */}
-            <Filter selectedFilter={selectedFilter} onFilterClick={handleFilterClick} pageTitle={pageTitle} subCategories={cocinaSubCategories}>
-              {/* Cards ahora recibe la categoría y los productos de cocina */}
-              <Cards selectedFilter={selectedFilter} products={cocinaProducts} />
-            </Filter>
+          <Filter
+                pageTitle="Tecnologia"
+                onFilter={filterData}
+                onSort={sortData}
+              >
+                <Cards products={filteredProducts} selectedFilter={null} />
+              </Filter>
             <Footer />
           </main>
         </div>

@@ -7,43 +7,34 @@ import Footer from "../../MainPage/Footer";
 import Filter from "../Filter";
 import Cards from "../Cards";
 import { CartProvider } from "../CartContext";
+import { useFilter } from "../Hook/useFilter";
+ // Productos de cocina
+ const cocinaProducts = [
+  {
+    id: "1",
+    name: "Maquinas De Obleas Lisa 16CM",
+    price: 150.0,
+    image: "/Cocina/MO lisa 16 cm.png",
+    rating: 4,
+    filter: "Maquinas de Obleas",
+  },
+  {
+    id: "2",
+    name: "Maquinas De Obleas Lisa 16CM",
+    price: 200.0,
+    image: "/Cocina/MO lisa 16 cm.png",
+    rating: 5,
+    filter: "Electrodomésticos",
+  },
+  // Otros productos de cocina...
+];
 
 export default function CocinaPage() {
-  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
-  const pageTitle = "Cocina";
-
-  const handleFilterClick = (filterName: string | null) => {
-    setSelectedFilter(filterName);
-  };
-
-  // Subcategorías específicas para la página de cocina
-  const cocinaSubCategories = [
-    { name: "Maquinas de Obleas", href: "#" },
-    { name: "Electrodomésticos", href: "#" },
-    { name: "Licuadoras", href: "#" },
-    { name: "Accesorios", href: "#" },
-  ];
-
-  // Productos de cocina
-  const cocinaProducts = [
-    {
-      id: "1",
-      name: "Maquinas De Obleas Lisa 16CM",
-      price: 150.0,
-      image: "/Cocina/MO lisa 16 cm.png",
-      rating: 4,
-      filter: "Maquinas de Obleas",
-    },
-    {
-      id: "2",
-      name: "Maquinas De Obleas Lisa 16CM",
-      price: 200.0,
-      image: "/Cocina/MO lisa 16 cm.png",
-      rating: 5,
-      filter: "Electrodomésticos",
-    },
-    // Otros productos de cocina...
-  ];
+  const {
+    data: filteredProducts,
+    filterData,
+    sortData,
+  } = useFilter(cocinaProducts);
 
   return (
     <CartProvider>
@@ -59,16 +50,11 @@ export default function CocinaPage() {
             <main className="sandbox">
               {/* Usa Filter y coloca Cards como hijo */}
               <Filter
-                selectedFilter={selectedFilter}
-                onFilterClick={handleFilterClick}
-                pageTitle={pageTitle}
-                subCategories={cocinaSubCategories}
+                pageTitle="Tecnologia"
+                onFilter={filterData}
+                onSort={sortData}
               >
-                {/* Cards ahora recibe la categoría y los productos de cocina */}
-                <Cards
-                  selectedFilter={selectedFilter}
-                  products={cocinaProducts}
-                />
+                <Cards products={filteredProducts} selectedFilter={null} />
               </Filter>
               <Footer />
             </main>
