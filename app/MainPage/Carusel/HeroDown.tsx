@@ -18,7 +18,7 @@ const MyComponent = () => {
                 transition={{ duration: 0.5 }}
                 className="text-4xl font-bold mb-5"
             >
-                Título
+                Compra nuestros Productos
             </motion.h1>
             <motion.h2
                 initial={{ y: -20, opacity: 0 }}
@@ -43,10 +43,10 @@ const MyComponent = () => {
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 0.8 }}
-                    className="w-[800px] h-[1200px] relative mb-10 shadow-lg"
+                    className="w-[600px] h-[1000px] relative mb-10 shadow-lg"
                     onClick={() => handleImageClick(1)}
                 >
-                    <Image src="/mujerlinda.jpg" alt="Imagen 1" layout="fill" objectFit="contain" />
+                    <Image src="/mujercompu.jpeg" alt="Imagen 1" fill />
                 </motion.div>
                 <motion.div
                     whileHover={{ scale: 1.05 }}
@@ -54,13 +54,12 @@ const MyComponent = () => {
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 1 }}
-                    className="w-[800px] h-[1200px] relative mt-20 shadow-lg"
+                    className="w-[600px] h-[1000px] relative mt-20 shadow-lg"
                     onClick={() => handleImageClick(2)}
                 >
-                    <Image src="/mujerlinda.jpg" alt="Imagen 2" layout="fill" objectFit="contain" />
+                    <Image src="/cocinamujer.jpg" alt="Imagen 2" fill  />
                 </motion.div>
             </div>
-            {/* Botones de acción */}
            
         </div>
     );
