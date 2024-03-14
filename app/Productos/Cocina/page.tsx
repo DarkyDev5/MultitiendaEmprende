@@ -9,7 +9,7 @@ import Cards from "../Cards";
 import { CartProvider } from "../CartContext";
 import { useFilter } from "../Hook/useFilter";
  // Productos de cocina
- const cocinaProducts = [
+ export const cocinaProducts = [
   {
     id: "1",
     name: "Maquinas De Obleas Lisa 16CM",
@@ -54,7 +54,7 @@ export default function CocinaPage() {
                 onFilter={filterData}
                 onSort={sortData}
               >
-                <Cards products={filteredProducts} selectedFilter={null} />
+                <Cards products={filteredProducts}  category="cocina"/>
               </Filter>
               <Footer />
             </main>

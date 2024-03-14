@@ -10,19 +10,19 @@ type Product = {
 
 const products: Product[] = [
   {
-    name: 'Bar Stool',
+    name: 'Mini Pc',
     image: '/Mini_PC.png',
-    description: 'You just want to be comfortable sitting in a bar stool—you want to be comfortable shimmying it up to the bar, closer to your lover, or back slightly to include a third person in the conversation.',
+    description: 'El TRIGKEY Ryzen 5 Mini PC es un equipo compacto pero potente, equipado con un procesador Ryzen 5 5560U. Este procesador facilita la realización de tareas variadas, incluyendo trabajos de diseño gráfico, edición de video y juegos. Su Wi-Fi de alta velocidad garantiza una conexión a internet constante y rápida. Este Mini PC tiene la capacidad de reproducir videos en alta definición, ofreciendo una experiencia visual de calidad. Admite varios sistemas operativos y permite la ampliación de almacenamiento, ajustándose a las necesidades individuales.',
   },
   {
-    name: 'Wireless Headphones',
-    image: '/Audifonos.png',
-    description: 'Immerse yourself in the world of music with our premium wireless headphones. Experience crystal-clear sound and comfortable design.',
+    name: 'Cera Ve',
+    image: '/CeraVe_Facial.png',
+    description: 'La Crema Hidratante CeraVe es perfecta para quienes sufren de piel seca. Formulada con ácido hialurónico y ceramidas, proporciona una hidratación profunda que deja la piel suave y saludable. Su textura rica se absorbe rápidamente sin dejar sensación grasosa, ideal para aquellos que buscan alivio inmediato. Además, al ser libre de aceites y fragancias, es suave incluso para las pieles más sensibles. Es una opción excelente para mantener la piel hidratada y cómoda a lo largo del día.',
   },
   {
-    name: 'Product 3',
-    image: '/Audifonos.png',
-    description: 'Highlight the features and benefits of your amazing product. Convince customers why they need it.',
+    name: 'Maquinas de Obleas',
+    image: '/Maquina_Obleas.png',
+    description: 'Preparar obleas deliciosas en casa es fácil y rápido con una máquina especializada en obleas de 16 cm. Esta máquina te permite disfrutar de obleas frescas y crujientes en cuestión de minutos, para que puedas satisfacer tus antojos en cualquier momento. Con su diseño compacto y fácil de usar, es perfecta para uso doméstico, brindándote la versatilidad para experimentar con una variedad de sabores y rellenos. ¡Disfruta de obleas dulces o saladas según tu preferencia!',
   },
 ];
 

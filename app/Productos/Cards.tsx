@@ -1,28 +1,21 @@
-import React, { useState } from 'react';
-import ProductCard from './ProductCard';
-import Cart from './Cart';
-import { useCart } from './CartContext';
-
-export interface Product {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-  rating: number;
-  filter: string;
-}
-
-export interface CartItem {
-  product: Product;
-  quantity: number;
-}
+import React, { useState } from "react";
+import ProductCard from "./ProductCard";
+import Cart from "./Cart";
+import { useCart } from "./CartContext";
+import { categories, subcategories } from "./allProducts";
+import { Product } from "./types";
 
 interface CardsProps {
-  selectedFilter: string | null;
+  category: string;
   products: Product[];
+  subcategory?: string;
 }
 
-function Cards({ selectedFilter, products }: CardsProps) {
+function Cards({
+  category,
+  products,
+  subcategory,
+}: CardsProps) {
   const { cart, addToCart, removeFromCart } = useCart();
   const [isCartOpen, setCartOpen] = useState(false);
 
@@ -32,10 +25,12 @@ function Cards({ selectedFilter, products }: CardsProps) {
   return (
     <div className="container mx-auto p-4">
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
-        {products.map(product => (
+        {products.map((product: Product) => (
           <div key={product.id} className="mb-6">
             <ProductCard
               product={product}
+              category={category}
+              subcategory={product.filter}
               onAddToCart={() => {
                 addToCart(product);
                 setCartOpen(true);
@@ -48,9 +43,16 @@ function Cards({ selectedFilter, products }: CardsProps) {
       {isCartOpen && (
         // Contenedor para detectar clics fuera del carrito
         <div className="fixed inset-0 z-40" onClick={() => setCartOpen(false)}>
-          <div className="fixed top-0 right-0 p-4 z-50" onClick={stopPropagation}>
+          <div
+            className="fixed top-0 right-0 p-4 z-50"
+            onClick={stopPropagation}
+          >
             <div className="bg-white border p-4 shadow-lg rounded-md">
-              <Cart cartItems={cart} onClose={() => setCartOpen(false)} removeFromCart={removeFromCart} />
+              <Cart
+                cartItems={cart}
+                onClose={() => setCartOpen(false)}
+                removeFromCart={removeFromCart}
+              />
             </div>
           </div>
         </div>

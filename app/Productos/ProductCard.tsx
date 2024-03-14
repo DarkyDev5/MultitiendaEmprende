@@ -2,39 +2,46 @@ import React from "react";
 import { Product } from "./types";
 import { formatCurrency } from "./PrecioCards";
 import Image from "next/image";
+import Link from "next/link";
 
 interface ProductCardProps {
   product: Product;
+  category: string;
+  subcategory?: string;
   onAddToCart: (product: Product) => void;
 }
 
-function ProductCard({ product, onAddToCart }: ProductCardProps) {
+function capitalizeFirstLetter(string: string) {
+  if (!string) {
+    return '';
+  }
+  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
+
+function ProductCard({ product, category, subcategory, onAddToCart }: ProductCardProps) {
+  let url = `/Productos/${capitalizeFirstLetter(category)}/${capitalizeFirstLetter(subcategory ?? '')}/${product.id}`;
+
+
+
   return (
+
+    
     <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700 flex flex-col h-full transition-shadow duration-500 ease-in-out hover:shadow-2xl">
       <div className="h-[280px] relative overflow-hidden p-20">
-        <Image
-          src={product.image}
-          alt={`Imagen del producto ${product.name}`}
-          layout="fill"
-          
-          className="rounded-lg"
-        />
+        <Image src={product.image} alt={`Imagen del producto ${product.name}`} layout="fill" className="rounded-lg" />
       </div>
-
       <div className="flex-grow p-5 flex flex-col">
-        <a href="#" className="flex-grow line-clamp-2">
-          <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white   ">
+        <Link href={url} className="flex-grow line-clamp-2">
+          <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white cursor-pointer">
             {product.name}
           </h5>
-        </a>
+        </Link>
         <div className="flex items-center mt-3 mb-2">
           <div className="flex items-center space-x-1 rtl:space-x-reverse">
             {[...Array(5).keys()].map((index) => (
               <svg
                 key={index}
-                className={`w-4 h-4 text-${
-                  index < product.rating ? "yellow" : "gray"
-                }-500 `}
+                className={`w-4 h-4 text-${index < product.rating ? "yellow" : "gray"}-500 `}
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"

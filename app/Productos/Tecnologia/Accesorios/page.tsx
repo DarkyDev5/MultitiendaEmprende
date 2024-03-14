@@ -75,7 +75,7 @@ export default function TecnologiaPage() {
                 onFilter={filterData}
                 onSort={sortData}
               >
-                <Cards products={filteredProducts} selectedFilter={null} />
+                <Cards category="tecnologia" products={filteredProducts}/>
               </Filter>
               <Footer />
             </main>

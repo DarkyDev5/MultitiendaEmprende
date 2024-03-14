@@ -6,19 +6,19 @@ const CarouselComponent = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const carouselContent = [
     {
-      title: "Título del Carrusel 1",
-      paragraph: "Este es un párrafo explicativo sobre el contenido del carrusel 1.",
-      subtitle: "Subtítulo 1",
+      title: "GANANDO EL JUEGO",
+      paragraph: '" Nunca veo el fracaso como un fracaso, sino solo como el juego que debo jugar y ganar "',
+      subtitle: "Tom Hopkins ",
     },
     {
-      title: "Título del Carrusel 2",
-      paragraph: "Este es un párrafo explicativo sobre el contenido del carrusel 2.",
-      subtitle: "Subtítulo 2",
+      title: "ATRAYENDO ÉXITO",
+      paragraph: '" Conviértete en la persona que atraiga los resultados que buscas "',
+      subtitle: "Jim Cathcart",
     },
     {
-      title: "Título del Carrusel 3",
-      paragraph: "Este es un párrafo explicativo sobre el contenido del carrusel 3.",
-      subtitle: "Subtítulo 3",
+      title: "LOGRA TUS SUEÑOS",
+      paragraph: '" Puedes lograr lo que quieras en la vida con disciplina, imaginación y la confianza de saber que todo es posible "',
+      subtitle: "Carolina Herrera",
     },
   ];
 
@@ -51,7 +51,7 @@ const CarouselComponent = () => {
       </div>
 
       <div className="relative w-full h-[800px]">
-        <Image src="/Fondonav.jpg" alt="Imagen de fondo completa" layout="fill" objectFit="cover" quality={100} />
+        <Image src="/mujercorriendo.jpg" alt="Imagen de fondo completa" layout="fill" objectFit="cover" quality={100} />
       </div>
     </>
   );

@@ -9,7 +9,8 @@ const MyComponent = () => {
         console.log(`Imagen ${imageId} fue clickeada.`);
         // Aquí puedes agregar lógica, como abrir una modal, navegar, etc.
     }
-
+    
+ 
     return (
         <div className="bg-white text-center py-10">
              <motion.h1
@@ -26,16 +27,9 @@ const MyComponent = () => {
                 transition={{ duration: 0.6 }}
                 className="text-3xl mb-5"
             >
-                Subtítulo 1
+                Descubre nuestros accesorios y tecnología
             </motion.h2>
-            <motion.h2
-                initial={{ y: -20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.7 }}
-                className="text-3xl mb-10"
-            >
-                Subtítulo 2 - Presionar
-            </motion.h2>
+            
             <div className="flex flex-wrap justify-center items-start gap-10">
                 <motion.div
                     whileHover={{ scale: 1.05 }}
@@ -57,7 +51,7 @@ const MyComponent = () => {
                     className="w-[600px] h-[1000px] relative mt-20 shadow-lg"
                     onClick={() => handleImageClick(2)}
                 >
-                    <Image src="/cocinamujer.jpg" alt="Imagen 2" fill  />
+                    <Image src="/cocinamujer.jpg" alt="Imagen 2" fill style={{objectFit: "cover"}}    />
                 </motion.div>
             </div>
            

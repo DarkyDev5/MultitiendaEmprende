@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
+
 import {
   Bars3Icon,
   MagnifyingGlassIcon,
@@ -9,9 +9,6 @@ import {
 } from "@heroicons/react/24/outline";
 import MobileMenu from "../Menu/MobileMenu";
 import DropdownMenu from "../Menu/DropdownMenu";
-import CartInterface from "../Productos/CartInterface";
-
-import { CartItem, Product } from "../Productos/Cards";
 import Cart from "../Productos/Cart";
 import { useCart } from "../Productos/CartContext";
 import Image from "next/image";
