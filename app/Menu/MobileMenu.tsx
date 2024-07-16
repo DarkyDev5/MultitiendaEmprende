@@ -82,7 +82,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ open, setOpen, children }) => {
                                 {item.name}
                               </a>
                               <p aria-hidden="true" className="mt-1">
-                                Shop now
+                                Comprar Ahora
                               </p>
                             </div>
                           ))}

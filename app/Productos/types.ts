@@ -15,23 +15,11 @@ export interface Product {
   }
 
   export interface DetailedProduct extends Product {
-    description: string;
-    additionalInfo: string;
-  }
-
-
-  export interface ProductInterface {
-    id: string;
-    category:string;
-    name: string;
-    price: number;
-    image: string;
-    rating: number;
-    fullDescription: string;
+    fullDescription: string[];
     shortDescription: string;
-    originalPrice: string;
-    dimensions:string;
-    weight:string;
-    color:string;
-    warranty:string
+    originalPrice: number;
+    color: string;
+    images: string[];
   }
+  
+

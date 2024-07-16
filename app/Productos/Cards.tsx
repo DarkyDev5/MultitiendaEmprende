@@ -2,19 +2,18 @@ import React, { useState } from "react";
 import ProductCard from "./ProductCard";
 import Cart from "./Cart";
 import { useCart } from "./CartContext";
-import { categories, subcategories } from "./allProducts";
 import { Product } from "./types";
 
 interface CardsProps {
   category: string;
   products: Product[];
-  subcategory?: string;
+
+  
 }
 
 function Cards({
   category,
   products,
-  subcategory,
 }: CardsProps) {
   const { cart, addToCart, removeFromCart } = useCart();
   const [isCartOpen, setCartOpen] = useState(false);

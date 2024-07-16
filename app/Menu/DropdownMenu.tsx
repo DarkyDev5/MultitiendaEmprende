@@ -79,7 +79,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = () => {
                                             aria-hidden="true"
                                             className="mt-1"
                                           >
-                                            Shop now
+                                            Comprar Ahora
                                           </p>
                                         </div>
                                       ))}

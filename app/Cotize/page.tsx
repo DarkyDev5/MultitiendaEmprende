@@ -1,7 +1,7 @@
 // CheckoutPage.tsx
-"use client"
+"use client";
 import React from 'react';
-import Form from './form';
+import FormContact from '../components/Contact/Form'; // Asegúrate de que esto esté en minúsculas o mayúsculas según corresponda.
 import Navbar from '../MainPage/Navbar';
 import Footer from '../MainPage/Footer';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -9,8 +9,6 @@ import { CartProvider, useCart } from '../Productos/CartContext';
 import Cards from '../Productos/Cards';
 
 const App: React.FC = () => {
-  
-
   return (
     <CartProvider>
       <AnimatePresence>
@@ -22,13 +20,13 @@ const App: React.FC = () => {
         >
           <Navbar />
           <section>
-          <Form  />
+            <FormContact />
           </section>
           <Footer />
-          
         </motion.div>
       </AnimatePresence>
     </CartProvider>
   );
-}
+};
+
 export default App;
