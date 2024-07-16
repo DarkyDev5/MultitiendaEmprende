@@ -55,7 +55,7 @@ export default function MaquinasObleasPage() {
                 onFilter={filterData}
                 onSort={sortData}
               >
-                <Cards products={filteredProducts} selectedFilter={null} />
+                <Cards products={filteredProducts} category="cocina" />
               </Filter>
             <Footer />
           </main>
