@@ -1,111 +1,90 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
-import { RxDotFilled } from "react-icons/rx";
 import { motion, AnimatePresence } from "framer-motion";
 
-import "../styles/app.module.css";
-
 const slides = [
-  "/Slider/slide-1.png",
-  "/Slider/slide-2.png",
-  "/Slider/slide-3.png",
-  "/Slider/slide-4.png",
-];
-const slideRoutes = [
-  "/Productos/Tecnologia",
-  "/Productos/Belleza",
-  "/Productos/Cocina",
-  "/Productos/Belleza",
+  { image: "/Slider/slide-1.png", route: "/Productos/Tecnologia" },
+  { image: "/Slider/slide-2.png", route: "/Productos/Belleza" },
+  { image: "/Slider/slide-3.png", route: "/Productos/Cocina" },
+  { image: "/Slider/slide-4.png", route: "/Productos/Belleza" },
 ];
 
 const CarouselUp: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const router = useRouter();
 
-  const imageStyle = {
-    objectFit: "cover",
-    layout: "responsive",
-  }as React.CSSProperties;
-
-  const updateIndex = (newIndex: number) => {
-    if (newIndex < 0) {
-      newIndex = slides.length - 1;
-    } else if (newIndex >= slides.length) {
-      newIndex = 0;
-    }
-    setCurrentIndex(newIndex);
-  };
+  const updateIndex = useCallback((newIndex: number) => {
+    setCurrentIndex((prevIndex) => 
+      newIndex < 0 ? slides.length - 1 : newIndex >= slides.length ? 0 : newIndex
+    );
+  }, []);
 
   useEffect(() => {
-    const intervalId = setInterval(() => updateIndex(currentIndex + 1), 3000);
+    const intervalId = setInterval(() => updateIndex(currentIndex + 1), 5000);
     return () => clearInterval(intervalId);
-  }, [currentIndex]);
+  }, [currentIndex, updateIndex]);
 
   return (
-    <AnimatePresence exitBeforeEnter={false} mode="wait">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.5 }}
-        className="relative bg-image"
-      >
-        <div
-          className="flex justify-center items-center"
-          style={{
-            backgroundImage: "url('/Fondonav.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            height: '100vh'
-          }}
-        >
-        <div className="max-w-screen-2xl w-full mx-auto py-16 px-4 my-8">
-            <Link href={slideRoutes[currentIndex]} passHref>
+    <div className="relative w-full bg-cover bg-center py-8 sm:py-12 md:py-16 lg:py-20"
+         style={{ backgroundImage: "url('/Fondonav.jpg')" }}>
+      <div className="absolute inset-0 bg-black bg-opacity-50" />
+      <div className="relative max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentIndex}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="w-full"
+          >
+            <Link href={slides[currentIndex].route} passHref>
               <div
+                className="relative w-full aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-2xl"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
               >
                 <Image
-                  src={slides[currentIndex]}
+                  src={slides[currentIndex].image}
                   alt="Imagen del carrusel"
-                  
-                  style={imageStyle}
-                  className={`rounded-2xl duration-500 ${
-                    isHovered ? "scale-105" : "scale-100"
-                  }`}
-                  width={1500}
-                  height={1500}
+                  layout="fill"
+                  objectFit="contain"
+                  className={`transition-transform duration-500 ${isHovered ? "scale-105" : "scale-100"}`}
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-50" />
               </div>
             </Link>
-            <BsChevronCompactLeft
-              onClick={() => updateIndex(currentIndex - 1)}
-              className="absolute top-[50%] left-5 text-2xl rounded-full p-2 bg-black/40 text-white cursor-pointer z-10"
-              size={30}
-            />
-            <BsChevronCompactRight
-              onClick={() => updateIndex(currentIndex + 1)}
-              className="absolute top-[50%] right-5 text-2xl rounded-full p-2 bg-black/40 text-white cursor-pointer z-10"
-              size={30}
-            />
+          </motion.div>
+        </AnimatePresence>
 
-            <div className="flex top-4 justify-center py-2">
-              {slides.map((_, slideIndex) => (
-                <RxDotFilled
-                  key={slideIndex}
-                  onClick={() => setCurrentIndex(slideIndex)}
-                  className="text-2xl cursor-pointer"
-                />
-              ))}
-            </div>
-          </div>
+        <button
+          onClick={() => updateIndex(currentIndex - 1)}
+          className="absolute left-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-all z-10"
+        >
+          <BsChevronCompactLeft size={24} />
+        </button>
+        <button
+          onClick={() => updateIndex(currentIndex + 1)}
+          className="absolute right-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-all z-10"
+        >
+          <BsChevronCompactRight size={24} />
+        </button>
+
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2 z-10">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`w-2 h-2 rounded-full transition-all ${
+                index === currentIndex ? "bg-white scale-125" : "bg-white bg-opacity-50"
+              }`}
+            />
+          ))}
         </div>
-      </motion.div>
-    </AnimatePresence>
+      </div>
+    </div>
   );
 };
 

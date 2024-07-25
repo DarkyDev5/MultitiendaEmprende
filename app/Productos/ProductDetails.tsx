@@ -4,7 +4,7 @@ import { useSearchParams, usePathname } from "next/navigation";
 import { categories } from "./allProducts"; // Asegúrate de importar correctamente tus productos
 import { CartContext, useCart } from "./CartContext";
 import { useContext, useState } from "react";
-import { Product, DetailedProduct } from "./types";
+import { Product, DetailedProduct } from "../components/Products/types";
 import Cart from "./Cart"; // Asegúrate de importar el componente Cart
 
 interface ProductPageProps {

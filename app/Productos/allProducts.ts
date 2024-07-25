@@ -1,4 +1,4 @@
-import { Product, DetailedProduct } from "./types";
+import { Product, DetailedProduct } from "../components/Products/types";
 export const categories: Record<string, DetailedProduct[]> = {
 
     cocina: [

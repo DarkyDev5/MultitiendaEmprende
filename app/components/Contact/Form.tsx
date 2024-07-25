@@ -2,7 +2,7 @@
 'use client';
 import React, { useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { useCart } from "../../Productos/CartContext";
+import { useCart } from "../Cart/CartContext";
 import axios, { AxiosError } from 'axios';
 import InputField from './InputField';
 import CountrySelect from './CountrySelect';

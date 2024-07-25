@@ -2,9 +2,9 @@
 import React, { useEffect, useRef, useCallback } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { Parallax, ParallaxProvider } from "react-scroll-parallax";
-import { CartProvider } from "./Productos/CartContext";
-import Navbar from "./MainPage/Navbar";
-import Footer from "./MainPage/Footer";
+import { CartProvider } from "./components/Cart/CartContext";
+import Navbar from "./components/MainPage/Navbar";
+import Footer from "./components/MainPage/Footer";
 import EmblaCarousel from "./MainPage/Carusel/CarouselUp";
 import Hero from "./MainPage/Carusel/Hero";
 import CarouselDown from "./MainPage/Carusel/CarouselDown";
