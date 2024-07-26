@@ -5,17 +5,16 @@ export interface ProductFormData {
   id: string;
   name: string;
   price: number;
-  image: FileList | null;  
+  image: FileList | null;
+  images: FileList | null;
   rating: number;
-  subcategory: string;
   category: string;
-  fullDescription: string[];
+  subcategory: string;
+  fullDescription: string;
   shortDescription: string;
   originalPrice: number;
   color: string;
-  images: FileList | null; 
 }
-
 // Esta interfaz se usa para los productos que se muestran en la lista
 export interface ProductData {
   id: string;

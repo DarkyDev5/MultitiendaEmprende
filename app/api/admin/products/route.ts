@@ -5,10 +5,8 @@ import cloudinary from '@/utils/cloudinary';
 
 export async function GET() {
   try {
-    console.log('Iniciando GET request');
     await dbConnect();
-    const products = await Product.find({});
-    console.log('Productos obtenidos:', products);
+    const products = await Product.find({}).sort({ createdAt: -1 });
     return NextResponse.json(products);
   } catch (error) {
     console.error('Error en GET request:', error);
@@ -18,50 +16,45 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    console.log('Iniciando POST request');
     await dbConnect();
     const formData = await request.formData();
-    console.log('FormData recibido:', formData);
     const productData: any = {};
+    const additionalImages: string[] = [];
 
     for (const [key, value] of formData.entries()) {
-      console.log(`Procesando campo: ${key}`);
-      if ((key === 'image' || key === 'images') && value instanceof Blob) {
-        console.log('Procesando imagen');
-        const buffer = Buffer.from(await value.arrayBuffer());
-        const uploadResult = await new Promise((resolve, reject) => {
-          cloudinary.uploader.upload_stream(
-            { resource_type: "auto", folder: "products" },
-            (error, result) => {
-              if (error) {
-                console.error('Error al subir a Cloudinary:', error);
-                reject(error);
-              } else {
-                console.log('Imagen subida a Cloudinary:', result);
-                resolve(result);
-              }
-            }
-          ).end(buffer);
-        });
-        const imageUrl = (uploadResult as any).secure_url;
-        key === 'image' ? productData.image = imageUrl : (productData.images ??= []).push(imageUrl);
+      if (key === 'image' && value instanceof Blob) {
+        productData.image = await uploadToCloudinary(value);
+      } else if (key.startsWith('images[') && value instanceof Blob) {
+        const index = parseInt(key.match(/\d+/)?.[0] || '0', 10);
+        additionalImages[index] = await uploadToCloudinary(value);
       } else {
         productData[key] = value;
       }
     }
 
-    console.log('ProductData procesado:', productData);
+    productData.images = additionalImages.filter(Boolean);
 
     if (!productData.subcategory) {
-      console.error('Error: Subcategory is required');
       throw new Error('Subcategory is required');
     }
 
     const product = await Product.create(productData);
-    console.log('Producto creado:', product);
     return NextResponse.json({ message: 'Producto agregado exitosamente', product }, { status: 201 });
   } catch (error) {
     console.error('Error en POST request:', error);
     return NextResponse.json({ error: 'Error al añadir el producto' }, { status: 500 });
   }
+}
+
+async function uploadToCloudinary(file: Blob): Promise<string> {
+  const buffer = Buffer.from(await file.arrayBuffer());
+  return new Promise((resolve, reject) => {
+    cloudinary.uploader.upload_stream(
+      { resource_type: "auto", folder: "products" },
+      (error, result) => {
+        if (error) reject(error);
+        else resolve(result!.secure_url);
+      }
+    ).end(buffer);
+  });
 }

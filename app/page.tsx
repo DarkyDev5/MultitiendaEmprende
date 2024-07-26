@@ -5,13 +5,13 @@ import { Parallax, ParallaxProvider } from "react-scroll-parallax";
 import { CartProvider } from "./components/Cart/CartContext";
 import Navbar from "./components/MainPage/Navbar";
 import Footer from "./components/MainPage/Footer";
-import EmblaCarousel from "./MainPage/Carusel/CarouselUp";
-import Hero from "./MainPage/Carusel/Hero";
-import CarouselDown from "./MainPage/Carusel/CarouselDown";
-import HeroDown from "./MainPage/Carusel/HeroDown";
+import EmblaCarousel from "./MainPage/Carusel/Sliders/SliderOne";
+import Hero from "./MainPage/Carusel/Sliders/SliderTwo";
+import CarouselDown from "./MainPage/Carusel/ProductsSection";
+import HeroDown from "./MainPage/Carusel/CategoriesSection";
 import Head from 'next/head'; // Asegúrate de importar Head para el SEO
 import throttle from 'lodash.throttle'; // Importa throttle de lodash
-import CarouselDown2 from "./MainPage/Carusel/CarouselDown2";
+import CarouselDown2 from "./MainPage/Carusel/Sliders/SliderThree";
 
 const Home = () => {
   const emblaControl = useAnimation();

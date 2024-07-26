@@ -1,98 +1,127 @@
-"use client"
-import { FaFacebookF, FaTwitter, FaInstagram, FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock } from 'react-icons/fa';
+// app/components/Footer.tsx
+"use client";
+
+import { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { FaFacebookF, FaTwitter, FaInstagram, FaMapMarkerAlt, FaPhone, FaEnvelope } from 'react-icons/fa';
 import dynamic from 'next/dynamic';
 
-// Importa el componente Map de manera dinámica y deshabilita SSR
-const DynamicMapComponent = dynamic(() => import('../Map/MapComponent'), {
-  ssr: false
-});
+const DynamicMapComponent = dynamic(() => import('../Map/MapComponent'), { ssr: false });
 
-const Footer = () => {
+const socialLinks = [
+  { icon: FaFacebookF, href: "https://www.facebook.com/multitiendaemprende/", color: "hover:text-blue-600" },
+  { icon: FaInstagram, href: "https://www.instagram.com/multitiendaemprende/", color: "hover:text-pink-600" },
+  { icon: FaTwitter, href: "https://www.twitter.com/multitiendaemprende/", color: "hover:text-blue-400" },
+];
+
+const contactInfo = [
+  { icon: FaMapMarkerAlt, text: "Centro Comercial SanSebastian, Cl. 7 #N° 1 - 78, Madrid, Cundinamarca" },
+  { icon: FaPhone, text: "+57 310905400" },
+  { icon: FaEnvelope, text: "contacto@multitienda.com" },
+];
+
+export default function Footer() {
+  const [email, setEmail] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Email subscribed:', email);
+    setEmail('');
+  };
+
   return (
-    <footer className="bg-gray-800 text-white py-10 relative">
-      <div className="container mx-auto px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-          {/* Información de Contacto */}
-          <div>
-            <h5 className="text-xl font-bold mb-6">Contacto</h5>
-            <ul>
-              <li className="flex items-center mb-4 hover:text-gray-300 transition-colors duration-300">
-                <FaMapMarkerAlt className="mr-4" /> Centro Comercial SanSebastian, Cl. 7 #N° 1 - 78, Madrid, Cundinamarca
-              </li>
-              <li className="flex items-center mb-4 hover:text-gray-300 transition-colors duration-300">
-                <FaPhone className="mr-4" /> +57 123 456 7890
-              </li>
-              <li className="flex items-center hover:text-gray-300 transition-colors duration-300">
-                <FaEnvelope className="mr-4" /> contacto@multitienda.com
-              </li>
+    <footer className="bg-gradient-to-b from-gray-100 to-white text-gray-700 py-16 relative overflow-hidden">
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <h5 className="text-2xl font-bold mb-6 text-indigo-700">Contacto</h5>
+            <ul className="space-y-4">
+              {contactInfo.map((item, index) => (
+                <li key={index} className="flex items-center">
+                  <item.icon className="mr-3 text-indigo-500" />
+                  <span className="text-gray-600 hover:text-indigo-700 transition-colors duration-300">{item.text}</span>
+                </li>
+              ))}
             </ul>
-          </div>
+          </motion.div>
 
-          {/* Mapa y Hora Local */}
-          <div className="col-span-1 md:col-span-2">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div>
-                <h5 className="text-xl font-bold mb-6">Visítanos En Nuestra Tienda</h5>
-                <DynamicMapComponent />
-              </div>
-              <div>
-                <h5 className="text-xl font-bold mb-6">Hora Local</h5>
-                <div className="flex items-center text-lg">
-                  <FaClock className="mr-4" />
-                  <p>Madrid, Cundinamarca - 10:45 AM</p>
-                </div>
-              </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            <h5 className="text-2xl font-bold mb-6 text-indigo-700">Nuestra Ubicación</h5>
+            <div className="h-48 rounded-lg overflow-hidden shadow-md">
+              <DynamicMapComponent />
             </div>
-          </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <h5 className="text-2xl font-bold mb-6 text-indigo-700">Enlaces Rápidos</h5>
+            <ul className="space-y-2">
+              {['Política de Privacidad', 'Términos de Servicio', 'FAQ'].map((item, index) => (
+                <li key={index}>
+                  <Link href="#" className="text-gray-600 hover:text-indigo-700 transition-colors duration-300">
+                    {item}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <h5 className="text-2xl font-bold mb-6 text-indigo-700">Suscríbete</h5>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Tu correo electrónico"
+                className="w-full px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                required
+              />
+              <button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded transition duration-300 shadow-md">
+                Suscribir
+              </button>
+            </form>
+          </motion.div>
         </div>
 
-        {/* Redes Sociales, Enlaces Rápidos y Suscripción */}
-        <div className="mt-10 border-t pt-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
-              <h5 className="text-xl font-bold mb-4">Síguenos</h5>
-              <div className="flex">
-                <a href="https://www.facebook.com/multitiendaemprende/" target="_blank" rel="noopener noreferrer" className="mr-6 hover:text-blue-600">
-                  <FaFacebookF size={24} />
-                </a>
-                <a href="https://www.instagram.com/multitiendaemprende/" target="_blank" rel="noopener noreferrer" className="mr-6 hover:text-pink-600">
-                  <FaInstagram size={24} />
-                </a>
-                <a href="https://www.facebook.com/TuPaginaDeFacebook" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400">
-                  <FaTwitter size={24} />
-                </a>
-              </div>
-            </div>
-            <div>
-              <h5 className="text-xl font-bold mb-4">Enlaces Rápidos</h5>
-              <ul>
-                <li className="mb-2 hover:text-gray-300"><a href="#">Política de Privacidad</a></li>
-                <li className="mb-2 hover:text-gray-300"><a href="#">Términos de Servicio</a></li>
-                <li className="hover:text-gray-300"><a href="#">FAQ</a></li>
-              </ul>
-            </div>
-            <div>
-              <h5 className="text-xl font-bold mb-4">Suscríbete</h5>
-              <form>
-                <input type="email" placeholder="Tu correo electrónico" className="w-full px-4 py-2 mb-2 text-gray-800" />
-                <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                  Suscribir
-                </button>
-              </form>
-            </div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="mt-12 pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center"
+        >
+          <div className="flex space-x-6 mb-4 md:mb-0">
+            {socialLinks.map((social, index) => (
+              <a key={index} href={social.href} target="_blank" rel="noopener noreferrer" className={`${social.color} transition-colors duration-300`}>
+                <social.icon size={24} />
+              </a>
+            ))}
           </div>
-        </div>
-
-        {/* Derechos de Autor */}
-        <div className="text-center text-sm text-gray-300 mt-8">
-          <p>&copy; 2023 Multitienda Emprende. Todos los derechos reservados.</p>
-        </div>
+          <p className="text-sm text-gray-500">
+            &copy; {new Date().getFullYear()} Multitienda Emprende. Todos los derechos reservados.
+          </p>
+        </motion.div>
       </div>
-      {/* Fondo de Onda */}
-      
+
+      {/* Fondo decorativo */}
+      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-indigo-100 to-transparent opacity-50" />
     </footer>
   );
-};
-
-export default Footer;
+}

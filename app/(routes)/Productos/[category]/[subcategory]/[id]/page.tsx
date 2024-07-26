@@ -1,7 +1,7 @@
 import React from 'react';
 import { ProductData } from '@/types/product';
 import { notFound } from 'next/navigation';
-import ProductDetails from '../../../../components/Products/ProductDetails';
+import ProductDetails from '../../../../../components/Products/ProductDetails';
 
 async function getProductDetails(category: string, subcategory: string, id: string): Promise<ProductData | null> {
   try {

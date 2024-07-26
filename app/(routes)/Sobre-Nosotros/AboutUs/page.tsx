@@ -1,7 +1,7 @@
 import Navbar from "../MainPage/Navbar";
 import Footer from "../MainPage/Footer";
-import AboutUs from "./AboutUs/aboutus";
-import { CartProvider } from "../Productos/CartContext";
+import AboutUs from "./aboutus";
+import { CartProvider } from "../../../Productos/CartContext";
 
 export default function About() {
   return (
