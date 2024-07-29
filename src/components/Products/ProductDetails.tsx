@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ProductData } from '@/types/product';
+import { ProductData } from '@/src/types/product';
 import { StarIcon, ShoppingCartIcon, HeartIcon } from '@heroicons/react/24/solid';
 import { useCart } from '../Cart/CartContext';
 

@@ -1,15 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server';
-import dbConnect from '@/lib/mongodb';
-import Product from '@/models/Product';
-import cloudinary from '@/utils/cloudinary';
+import dbConnect from '@/src/lib/mongodb';
+import Product from '@/src/models/Product';
+import cloudinary from '@/src/utils/cloudinary';
 
-export async function GET() {
+export const dynamic = 'force-dynamic'; // Asegura que la ruta siempre se ejecute en el servidor
+
+export async function GET(request: NextRequest) {
   try {
     await dbConnect();
-    const products = await Product.find({}).sort({ createdAt: -1 });
+
+    const { searchParams } = new URL(request.url);
+    const category = searchParams.get('category');
+    const subcategory = searchParams.get('subcategory');
+    const id = searchParams.get('id');
+
+    let query: any = {};
+    if (category) query.category = category;
+    if (subcategory) query.subcategory = subcategory;
+    if (id) query.id = id;
+
+    console.log('MongoDB query:', query);
+
+    const products = await Product.find(query).sort({ createdAt: -1 });
+    console.log('Products found:', products.length);
+
     return NextResponse.json(products);
   } catch (error) {
-    console.error('Error en GET request:', error);
+    console.error('Error fetching products:', error);
     return NextResponse.json({ error: 'Error al obtener productos' }, { status: 500 });
   }
 }
@@ -35,7 +52,7 @@ export async function POST(request: NextRequest) {
     productData.images = additionalImages.filter(Boolean);
 
     if (!productData.subcategory) {
-      throw new Error('Subcategory is required');
+      return NextResponse.json({ error: 'Subcategory is required' }, { status: 400 });
     }
 
     const product = await Product.create(productData);

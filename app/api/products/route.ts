@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import dbConnect from '@/lib/mongodb';
-import Product from '@/models/Product';
+import dbConnect from '@/src/lib/mongodb';
+import Product from '@/src/models/Product';
 
 export const dynamic = 'force-dynamic';
 

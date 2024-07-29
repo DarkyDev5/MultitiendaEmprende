@@ -1,5 +1,5 @@
 import dbConnect from '@/lib/mongodb';
-import Product from '@/models/Product';
+import Product from '@/src/models/Product';
 
 export async function getProducts(category: string) {
   await dbConnect();

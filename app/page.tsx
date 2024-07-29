@@ -1,140 +1,38 @@
-"use client";
-import React, { useEffect, useRef, useCallback } from "react";
-import { motion, useAnimation } from "framer-motion";
-import { Parallax, ParallaxProvider } from "react-scroll-parallax";
-import { CartProvider } from "./components/Cart/CartContext";
-import Navbar from "./components/MainPage/Navbar";
-import Footer from "./components/MainPage/Footer";
-import EmblaCarousel from "./MainPage/Carusel/Sliders/SliderOne";
-import Hero from "./MainPage/Carusel/Sliders/SliderTwo";
-import CarouselDown from "./MainPage/Carusel/ProductsSection";
-import HeroDown from "./MainPage/Carusel/CategoriesSection";
-import Head from 'next/head'; // Asegúrate de importar Head para el SEO
-import throttle from 'lodash.throttle'; // Importa throttle de lodash
-import CarouselDown2 from "./MainPage/Carusel/Sliders/SliderThree";
+import React from 'react';
+import SliderOne from "@/src/components/Home/Sliders/SliderOne";
+import SliderTwo from "@/src/components/Home/Sliders/SliderTwo";
+import ProductsSection from "@/src/components/Home/ProductsSection";
+import CategoriesSection from "@/src/components/Home/CategoriesSection";
+import SliderThree from "@/src/components/Home/Sliders/SliderThree";
+import { Metadata } from 'next';
 
-const Home = () => {
-  const emblaControl = useAnimation();
-  const heroControl = useAnimation();
-  const carouselDownControl = useAnimation();
-  const heroDownControl = useAnimation();
-
-  const emblaRef = useRef<HTMLElement | null>(null);
-  const heroRef = useRef<HTMLElement | null>(null);
-  const carouselDownRef = useRef<HTMLElement | null>(null);
-  const heroDownRef = useRef<HTMLElement | null>(null);
-
-  const checkVisibility = (
-    ref: React.RefObject<HTMLElement>,
-    control: any,
-    threshold: number = 0
-  ) => {
-    if (ref.current) {
-      const rect = ref.current.getBoundingClientRect();
-      const isVisible =
-        rect.top <= window.innerHeight * (1 - threshold) && rect.bottom >= 0;
-      if (isVisible) {
-        control.start({
-          opacity: 1,
-          y: 0,
-          transition: { duration: 0.4, ease: "easeInOut" },
-        });
-      } else {
-        control.start({
-          opacity: 0,
-          y: 50,
-          transition: { duration: 0.4, ease: "easeInOut" },
-        });
-      }
-    }
-  };
-
-  const handleScroll = useCallback(
-    throttle(() => {
-      checkVisibility(emblaRef, emblaControl, 0.1);
-      checkVisibility(heroRef, heroControl, 0.2);
-      checkVisibility(carouselDownRef, carouselDownControl, 0.2);
-      checkVisibility(heroDownRef, heroDownControl, 0.2);
-    }, 200),
-    [] // Dependencias del useCallback
-  );
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      handleScroll.cancel(); // Cancela cualquier ejecución pendiente de throttle
-    };
-  }, [handleScroll]);
-
-  return (
-    <CartProvider>
-      <ParallaxProvider>
-        <Head>
-          <title>Tu Título de Página</title>
-          <meta name="description" content="Descripción de tu página" />
-          {/* Otros elementos que necesites en el head */}
-        </Head>
-        <div className="app-container">
-          <Navbar />
-
-          <section className="hero-section" ref={emblaRef}>
-            <EmblaCarousel />
-          </section>
-
-          <section className="carousel-section" ref={heroRef}>
-            <Parallax>
-              <motion.div initial={{ opacity: 0, y: 50 }} animate={heroControl}>
-                <Hero />
-              </motion.div>
-            </Parallax>
-          </section>
-
-          {/* Repite para otras secciones con sus respectivas referencias y controles */}
-
-          <section className="carousel-down-section" ref={carouselDownRef}>
-            <Parallax>
-              <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                animate={carouselDownControl}
-              >
-                <section style={{ background: "white" }}>
-                  <CarouselDown />
-                </section>
-              </motion.div>
-            </Parallax>
-          </section>
-
-
-          <section className="hero-down-section" ref={heroDownRef}>
-           
-      
-                <section style={{ background: "white" }}>
-                  <HeroDown />
-                </section>
-             
-            
-          </section>
-
-          <section className="hero-down-section" ref={heroDownRef}>
-            <Parallax>
-              <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                animate={heroDownControl}
-              >
-                <section style={{ background: "white" }}>
-                <CarouselDown2/>
-                </section>
-              </motion.div>
-            </Parallax>
-          </section>
-         
-          
-          <Footer />
-        </div>
-      </ParallaxProvider>
-    </CartProvider>
-  );
+export const metadata: Metadata = {
+  title: 'Página de Inicio - Tu Tienda Online',
+  description: 'Bienvenido a nuestra tienda en línea. Encuentra los mejores productos a los mejores precios.',
 };
 
-export default Home;
+export default function Home() {
+  return (
+    <div className="flex flex-col space-y-12">
+      <section className="w-full">
+        <SliderOne />
+      </section>
+
+      <section className="w-full px-4">
+        <SliderTwo />
+      </section>
+
+      <section className="w-full px-4">
+        <ProductsSection />
+      </section>
+
+      <section className="w-full px-4">
+        <CategoriesSection />
+      </section>
+
+      <section className="w-full px-4">
+        <SliderThree />
+      </section>
+    </div>
+  );
+}

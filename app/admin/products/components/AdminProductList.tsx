@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { ProductData } from '@/types/product';
-import { SafeImage } from '../../components/Admin/SafeImage';
+import { ProductData } from '@/src/types/product';
+import Image from 'next/image';
 
 export default function AdminProductList() {
   const [products, setProducts] = useState<ProductData[]>([]);
@@ -55,7 +55,12 @@ export default function AdminProductList() {
           <p>Categoría: {product.category}</p>
           <p>Subcategoría: {product.subcategory}</p>
           <div className="relative h-40 w-full mb-2">
-            <SafeImage src={product.image} alt={product.name} />
+            <Image 
+              src={product.image} 
+              alt={product.name}
+              layout="fill"
+              objectFit="cover"
+            />
           </div>
           <p className="text-sm mb-2">{product.shortDescription}</p>
           <button 

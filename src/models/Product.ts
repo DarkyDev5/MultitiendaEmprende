@@ -1,13 +1,11 @@
 import mongoose, { Schema, model, Model, Document } from 'mongoose';
 
-// Interfaz que extiende Document para incluir los campos de ProductFormData
 export interface IProduct extends Document {
-  id?: string;
   name: string;
   price: number;
   image: string;
   rating: number;
-  subcategory: string; // Cambiado de filter a subcategory
+  subcategory: string;
   category: string;
   fullDescription: string[];
   shortDescription: string;
@@ -16,14 +14,13 @@ export interface IProduct extends Document {
   images: string[];
 }
 
-// Esquema de MongoDB que coincide con la interfaz IProduct
 const productSchema = new Schema<IProduct>({
   id: { type: String, required: true, unique: true },
   name: { type: String, required: true },
   price: { type: Number, required: true },
   image: { type: String, required: true },
   rating: { type: Number, required: true, min: 1, max: 5 },
-  subcategory: { type: String, required: true }, // Cambiado de filter a subcategory
+  subcategory: { type: String, required: true },
   category: { type: String, required: true },
   fullDescription: { type: [String], required: true },
   shortDescription: { type: String, required: true },
@@ -31,10 +28,13 @@ const productSchema = new Schema<IProduct>({
   color: { type: String, required: true },
   images: { type: [String], required: true }
 }, {
-  timestamps: true // Esto añadirá campos createdAt y updatedAt automáticamente
+  timestamps: true
 });
 
-// Verificamos si el modelo ya existe para evitar recompilarlo
+// Índices para mejorar el rendimiento de las consultas
+productSchema.index({ id: 1 });
+productSchema.index({ category: 1, subcategory: 1 });
+productSchema.index({ name: 'text' });
 const Product: Model<IProduct> = mongoose.models.Product || model<IProduct>('Product', productSchema);
 
 export default Product;

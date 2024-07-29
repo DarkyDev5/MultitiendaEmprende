@@ -115,7 +115,7 @@ export default function Footer() {
             ))}
           </div>
           <p className="text-sm text-gray-500">
-            &copy; {new Date().getFullYear()} Multitienda Emprende. Todos los derechos reservados.
+            &copy; {new Date().getFullYear()} Regiossoft. Todos los derechos reservados.
           </p>
         </motion.div>
       </div>

@@ -3,8 +3,8 @@
 import { useSession } from "next-auth/react"
 import { redirect } from 'next/navigation'
 import { useState } from 'react'
-import AdminProductForm from './AdminProductForm'
-import AdminProductList from './AdminProductList'
+import AdminProductForm from '@/src/componentsAdmin/products/AdminProductForm';
+import AdminProductList from './components/AdminProductList'
 
 export default function AdminPage() {
   const { data: session, status } = useSession({

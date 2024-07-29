@@ -1,24 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import dbConnect from '@/lib/mongodb';
-import Product from '@/models/Product';
+import dbConnect from '@/src/lib/mongodb';
+import Product from '@/src/models/Product';
 
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    console.log('DELETE request received for product ID:', params.id);
-    
-    // Verificar si el método es DELETE
-    if (request.method !== 'DELETE') {
-      return NextResponse.json({ error: 'Método no permitido' }, { status: 405 });
-    }
-
     await dbConnect();
-    console.log('Database connected successfully');
-
+    
     const productId = params.id;
-    console.log('Attempting to find and delete product with ID:', productId);
+    console.log('Attempting to delete product with ID:', productId);
 
     const deletedProduct = await Product.findOneAndDelete({ id: productId });
 

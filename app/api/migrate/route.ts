@@ -1,8 +1,8 @@
 // app/api/migrate/route.ts
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
-import Product from '@/models/Product';
-import cloudinary from '@/utils/cloudinary';
+import Product from '@/src/models/Product';
+import cloudinary from '@/src/utils/cloudinary';
 import axios from 'axios';
 
 async function uploadToCloudinary(buffer: Buffer): Promise<string> {
