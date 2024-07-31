@@ -5,8 +5,8 @@ import {
   MagnifyingGlassIcon,
   ShoppingBagIcon,
 } from "@heroicons/react/24/outline";
-import MobileMenu from "../Menu/MobileMenu";
-import DropdownMenu from "../Menu/DropdownMenu";
+import MobileMenu from "./Menu/MobileMenu";
+import DropdownMenu from "./Menu/DropdownMenu";
 import CartModal from "../Cart/CartModal";
 import { useCart } from "../Cart/CartContext";
 import Image from "next/image";

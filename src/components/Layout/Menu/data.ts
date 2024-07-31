@@ -27,7 +27,7 @@ export const navigation = {
             items: [
               { name: 'Computadores', href: '#' },
               { name: 'Monitores', href: '#' },
-              { name: 'Audifonos', href: '#' },
+              { name: 'Discos-Duros', href: '#' },
               { name: 'Accesorios', href: '#' }
             ],
           },

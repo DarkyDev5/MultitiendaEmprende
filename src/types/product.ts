@@ -38,7 +38,7 @@ export interface Category {
 }
 
 export const categories: Category = {
-  Tecnologia: ['Computadores', 'Monitores', 'Audifonos', 'Accesorios'],
+  Tecnologia: ['Computadores', 'Monitores', 'Discos-Duros', 'Accesorios'],
   Cocina: ['Maquinas Obleas Trabajo Liviano', 'Maquinas Obleas Semi Industrial', 'Maquinas Pela Mangos', 'Electrodomésticos de Cocina'],
   Belleza: ['Maquillaje', 'Cremas'],
   Deportes: ['Proteinas'],
