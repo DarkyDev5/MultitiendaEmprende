@@ -7,7 +7,6 @@ import {
 } from "@heroicons/react/24/outline";
 import MobileMenu from "./Menu/MobileMenu";
 import DropdownMenu from "./Menu/DropdownMenu";
-import CartModal from "../Cart/CartModal";
 import { useCart } from "../Cart/CartContext";
 import Image from "next/image";
 import ReactCountryFlag from "react-country-flag";
@@ -26,7 +25,7 @@ export default function Navbar() {
   return (
     <div className="bg-white">
      <MobileMenu open={isMobileMenuOpen} setOpen={setMobileMenuOpen} />
-      <CartModal />
+      
 
       <header className="z-30 relative bg-white">
         <p className="flex h-10 items-center justify-center bg-indigo-600 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
