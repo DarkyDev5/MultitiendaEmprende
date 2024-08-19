@@ -1,6 +1,6 @@
 // CartContext.tsx
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { ProductData } from "@/types/product";
+import { ProductData } from "@/src/types/product";
 
 export interface CartItem {
   product: Pick<ProductData, 'id' | 'name' | 'price' | 'image' | 'category' | 'subcategory'>;

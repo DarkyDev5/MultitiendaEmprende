@@ -75,7 +75,7 @@ export default function InspirationCarousel() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
             >
-              "{carouselContent[currentIndex].quote}"
+              {carouselContent[currentIndex].quote}
             </motion.p>
             <motion.p
               className="text-lg md:text-xl font-light"
