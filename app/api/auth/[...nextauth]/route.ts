@@ -1,7 +1,7 @@
 import NextAuth, { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -10,9 +10,17 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        // Aquí deberías verificar las credenciales contra tu base de datos
-        if (credentials?.username === "admin" && credentials?.password === "password") {
-          return { id: "1", name: "Admin", email: "admin@example.com", isAdmin: true }
+        // Verificar las credenciales contra las variables de entorno
+        if (
+          credentials?.username === process.env.ADMIN_USERNAME &&
+          credentials?.password === process.env.ADMIN_PASSWORD
+        ) {
+          return { 
+            id: "1", 
+            name: "Admin", 
+            email: process.env.ADMIN_EMAIL,
+            isAdmin: true 
+          }
         }
         return null
       }
