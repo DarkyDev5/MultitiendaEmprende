@@ -6,9 +6,9 @@ import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/24/outline';
 
 const entrepreneurshipItems = [
   {
-    title: "Tecnología de Vanguardia",
-    description: "Descubre los últimos avances en tecnología para tu hogar y oficina.",
-    price: "299.900 COP",
+    title: "Maquina de Obleas",
+    description: "Maquinas de Obleas, de diferentes diseños.",
+    price: "220.000 COP",
     image: "/slidetwo2.png" // Asegúrate de que esta ruta sea correcta
   },
   // Puedes agregar más items aquí
