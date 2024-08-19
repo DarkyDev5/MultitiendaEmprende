@@ -1,31 +1,30 @@
 "use client";
+
 import React, { useState } from "react";
 import {
   Bars3Icon,
   MagnifyingGlassIcon,
   ShoppingBagIcon,
 } from "@heroicons/react/24/outline";
-import MobileMenu from "./Menu/MobileMenu";
-import DropdownMenu from "./Menu/DropdownMenu";
-import { useCart } from "../Cart/CartContext";
+import MobileMenu from "@/src/components/Layout/Menu/MobileMenu";
+import DropdownMenu from "@/src/components/Layout/Menu/DropdownMenu";
+import { useCartContext } from "@/src/components/Cart/CartContext";
 import Image from "next/image";
 import ReactCountryFlag from "react-country-flag";
 import dynamic from 'next/dynamic';
 
-
-const DynamicCartCounter = dynamic(() => Promise.resolve(() => {
-  const { getItemCount } = useCart();
-  return <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{getItemCount()}</span>;
-}), { ssr: false });
+const DynamicCartCounter = dynamic(() => 
+  import("@/src/components/Cart/CartCounter").then((mod) => mod.CartCounter),
+  { ssr: false }
+);
 
 export default function Navbar() {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { openCart, getItemCount } = useCart();
+  const { openCart } = useCartContext();
 
   return (
     <div className="bg-white">
-     <MobileMenu open={isMobileMenuOpen} setOpen={setMobileMenuOpen} />
-      
+      <MobileMenu open={isMobileMenuOpen} setOpen={setMobileMenuOpen} />
 
       <header className="z-30 relative bg-white">
         <p className="flex h-10 items-center justify-center bg-indigo-600 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">

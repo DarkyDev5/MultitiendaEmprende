@@ -6,7 +6,7 @@ import FormFields from "./FormFields";
 import CategoryFields from "./CategoryFields";
 import ImageFields from "./ImageFields";
 import PreviewImages from "./PreviewImages";
-import useProductForm from "@/src/Hook/useProductForm";
+import useProductForm from "@/src/hooks/useProductForm";
 import { UseFormReturn } from "react-hook-form";
 import { ProductFormData } from "@/src/types/product";
 

@@ -44,3 +44,33 @@ export const categories: Category = {
   Deportes: ['Proteinas'],
   Ofertas: ['']
 };
+
+
+// Cart Context
+export interface CartItem {
+  product: {
+    id: string;
+    name: string;
+    price: number;
+    image: string;
+    category: string;
+    subcategory: string;
+    // Añade aquí cualquier otra propiedad que estés utilizando en tu componente Cart
+  };
+  quantity: number;
+}
+
+export interface CartContextType {
+  cart: CartItem[];
+  isCartOpen: boolean;  
+  addToCart: (product: ProductData, quantity?: number) => void;
+  removeFromCart: (productId: string) => void;
+  updateQuantity: (productId: string, quantity: number) => void;
+  clearCart: () => void;
+  getCartTotal: () => number;
+  getItemCount: () => number;
+  isInCart: (productId: string) => boolean;
+  openCart: () => void;  
+  closeCart: () => void; 
+  getTotal: () => number;
+}

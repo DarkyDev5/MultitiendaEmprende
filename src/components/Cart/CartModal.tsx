@@ -1,14 +1,14 @@
 "use client"
 
-import { useCart } from './CartContext';
+import { useCartContext } from "@/src/components/Cart/CartContext";
 import Cart from './Cart';
 
 export default function CartModal() {
-  const { isCartOpen, closeCart } = useCart();
+  const { isCartOpen } = useCartContext();
 
   if (!isCartOpen) {
     return null;
   }
 
-  return <Cart onClose={closeCart} />;
+  return <Cart />;
 }

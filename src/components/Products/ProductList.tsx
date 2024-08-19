@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,7 +9,7 @@ import {
   ShoppingCartIcon,
   HeartIcon,
 } from "@heroicons/react/24/solid";
-import { useCart } from "../Cart/CartContext";
+import { useCartContext } from "@/src/components/Cart/CartContext";
 
 interface ProductListProps {
   products: ProductData[];
@@ -23,8 +24,8 @@ const formatPrice = (price: number) => {
   }).format(price);
 };
 
-export const ProductList: React.FC<ProductListProps> = ({ products }) => {
-  const { addToCart, isInCart, openCart } = useCart();
+export function ProductList({ products }: ProductListProps) {
+  const { addToCart, isInCart, openCart } = useCartContext();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
