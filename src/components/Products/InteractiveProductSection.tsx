@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import Filter from './Filter';
 import ProductList from './ProductList';
-import { ProductData } from '@/types/product';
+import { ProductData } from '@/src/types/product';
 
 interface InteractiveProductSectionProps {
   category: string;

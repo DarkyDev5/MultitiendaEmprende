@@ -1,4 +1,4 @@
-import dbConnect from '@/lib/mongodb';
+import dbConnect from '@/src/lib/mongodb';
 import Product from '@/src/models/Product';
 
 export async function getProducts(category: string) {

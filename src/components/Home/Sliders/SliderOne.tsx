@@ -31,18 +31,20 @@ const slides = [
     title: "Estilo y Confort",
     description: "Eleva tu estilo de vida con nuestros productos de lujo."
   },
+
 ];
 export default function SliderOne() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    const timer = setInterval(() => 
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length), 6000);
+    const timer = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
+    }, 6000);
     return () => clearInterval(timer);
   }, []);
 
   return (
-    <div className="relative w-full h-[85vh] overflow-hidden bg-gray-900">
+    <div className="relative w-screen h-[85vh] overflow-hidden bg-gray-900 -mx-[calc(50vw-50%)] left-[calc(50%-50vw)] -mt-[1px] -mb-[1px]">
       <AnimatePresence initial={false}>
         <motion.div
           key={currentIndex}
@@ -67,12 +69,14 @@ export default function SliderOne() {
         </motion.div>
       </AnimatePresence>
 
-      <div className="absolute inset-0 flex items-center justify-start p-6 sm:p-12 lg:p-16 xl:p-24">
+      <div className="absolute inset-0 flex items-center justify-start p-6 sm:p-12 lg:p-16 xl:p-24 pointer-events-none">
         <motion.div
+          key={`content-${currentIndex}`}
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="max-w-lg lg:max-w-xl xl:max-w-2xl text-white"
+          exit={{ opacity: 0, x: 50 }}
+          transition={{ duration: 0.5 }}
+          className="max-w-lg lg:max-w-xl xl:max-w-2xl text-white pointer-events-auto"
         >
           <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-3">
             {slides[currentIndex].title}
@@ -98,8 +102,8 @@ export default function SliderOne() {
             key={index}
             onClick={() => setCurrentIndex(index)}
             className={`w-2.5 h-2.5 lg:w-3 lg:h-3 rounded-full transition-all duration-300 ${
-              index === currentIndex 
-                ? "bg-white scale-125" 
+              index === currentIndex
+                ? "bg-white scale-125"
                 : "bg-white/50 hover:bg-white/75"
             }`}
             aria-label={`Ir a la diapositiva ${index + 1}`}

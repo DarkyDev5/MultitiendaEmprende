@@ -13,26 +13,16 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className="flex flex-col space-y-12">
-      <section className="w-full">
-        <SliderOne />
-      </section>
+    <div className="flex flex-col ">
+      <SliderOne />
 
-      <section className="w-full px-4">
-        <SliderTwo />
-      </section>
-
-      <section className="w-full px-4">
-        <ProductsSection />
-      </section>
-
-      <section className="w-full px-4">
-        <CategoriesSection />
-      </section>
-
-      <section className="w-full px-4">
-        <SliderThree />
-      </section>
+      <div className='my-10'>
+      <SliderTwo  />
+      </div>
+      
+      <ProductsSection />
+      <CategoriesSection />
+      <SliderThree />
     </div>
   );
 }

@@ -24,7 +24,7 @@ export default function RootLayout({
         <Providers>
           <div className="flex flex-col min-h-screen">
             <Navbar />
-            <main className="flex-grow container mx-auto py-8">
+            <main className="flex-grow w-full py-8"> 
               {children}
             </main>
             <Footer />

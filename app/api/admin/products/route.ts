@@ -7,8 +7,9 @@ export const dynamic = 'force-dynamic'; // Asegura que la ruta siempre se ejecut
 
 export async function GET(request: NextRequest) {
   try {
+    console.log('Attempting to connect to database...');
     await dbConnect();
-
+    console.log('Database connected successfully');
     const { searchParams } = new URL(request.url);
     const category = searchParams.get('category');
     const subcategory = searchParams.get('subcategory');

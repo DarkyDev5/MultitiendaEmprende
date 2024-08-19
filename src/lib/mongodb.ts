@@ -1,4 +1,4 @@
-import mongoose, { Mongoose } from 'mongoose';
+import mongoose, { Mongoose, ConnectOptions } from 'mongoose';
 
 declare global {
   var mongoose: {
@@ -21,14 +21,18 @@ if (!cached) {
 
 async function dbConnect(): Promise<Mongoose> {
   if (cached && cached.conn) {
+    console.log('Using existing database connection');
     return cached.conn;
   }
 
   if (!cached || !cached.promise) {
-    const opts = {
+    const opts: ConnectOptions = {
       bufferCommands: false,
+      // Removed: useNewUrlParser and useUnifiedTopology are no longer needed
+      // They are set to true by default in newer versions of Mongoose
     };
 
+    console.log('Connecting to MongoDB...');
     cached = global.mongoose = {
       conn: null,
       promise: mongoose.connect(MONGODB_URI, opts)
@@ -37,8 +41,10 @@ async function dbConnect(): Promise<Mongoose> {
 
   try {
     const conn = await cached.promise;
+    console.log('Successfully connected to MongoDB');
     cached.conn = conn;
   } catch (e) {
+    console.error('Error connecting to MongoDB:', e);
     if (cached) cached.promise = null;
     throw e;
   }

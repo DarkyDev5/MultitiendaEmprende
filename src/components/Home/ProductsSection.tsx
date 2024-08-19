@@ -13,7 +13,7 @@ interface Card {
 }
 
 const cardData: Card[] = [
-  { title: 'Monitores', imageSrc: '/SliderDown/monitores.png', link: '/categoria/monitores' },
+  { title: 'Monitores', imageSrc: '/SliderDown/monitores.png', link: '/Productos/Tecnologia/Monitores' },
   { title: 'Máquinas', imageSrc: '/SliderDown/maquinas.png', link: '/categoria/maquinas' },
   { title: 'Cremas', imageSrc: '/SliderDown/cremas.png', link: '/categoria/cremas' },
   { title: 'Proteínas', imageSrc: '/SliderDown/proteinas.png', link: '/categoria/proteinas' },

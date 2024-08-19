@@ -25,7 +25,7 @@ export default function Navbar() {
 
   return (
     <div className="bg-white">
-      <MobileMenu open={isMobileMenuOpen} setOpen={setMobileMenuOpen} />
+     <MobileMenu open={isMobileMenuOpen} setOpen={setMobileMenuOpen} />
       <CartModal />
 
       <header className="z-30 relative bg-white">
