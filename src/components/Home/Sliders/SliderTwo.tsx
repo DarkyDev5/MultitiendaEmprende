@@ -6,8 +6,8 @@ import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/24/outline';
 
 const entrepreneurshipItems = [
   {
-    title: "Maquina de Obleas",
-    description: "Maquinas de Obleas, de diferentes diseños.",
+    title: "Maquina de Oblea Lisa",
+    description: "Maquinas de Obleas 110V, Incluye troquel.",
     price: "220.000 COP",
     image: "/slidetwo2.png" // Asegúrate de que esta ruta sea correcta
   },
