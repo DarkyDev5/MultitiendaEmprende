@@ -4,7 +4,7 @@ import React from 'react';
 import { useCartContext } from '@/src/components/Cart/CartContext';
 import CartItem from './CartItem';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, Trash2, ArrowLeft, X  } from 'lucide-react';
+import { ShoppingCart, Trash2, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { CartContextType } from '@/src/types/product';
 import toast, { Toaster } from 'react-hot-toast';
@@ -12,50 +12,19 @@ import toast, { Toaster } from 'react-hot-toast';
 export default function CartItems() {
   const { cart, updateQuantity, removeFromCart, clearCart } = useCartContext() as CartContextType;
 
-  const showToast = (message: string) => {
-    toast.custom(
-      (t) => (
-        <div
-          className={`${
-            t.visible ? 'animate-enter' : 'animate-leave'
-          } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
-        >
-          <div className="flex-1 w-0 p-4">
-            <div className="flex items-start">
-              <div className="ml-3 flex-1">
-                <p className="text-sm font-medium text-gray-900">
-                  {message}
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex border-l border-gray-200">
-            <button
-              onClick={() => toast.dismiss(t.id)}
-              className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            >
-              <X size={18} />
-            </button>
-          </div>
-        </div>
-      ),
-      { duration: 5000 }
-    );
-  };
-
   const handleUpdateQuantity = (productId: string, quantity: number) => {
     updateQuantity(productId, quantity);
-    toast.success('Cantidad actualizada', { duration: 3000 });
+    toast.success('Cantidad actualizada');
   };
 
   const handleRemoveFromCart = (productId: string) => {
     removeFromCart(productId);
-    toast.success('Producto eliminado del carrito', { duration: 3000 });
+    toast.success('Producto eliminado del carrito');
   };
 
   const handleClearCart = () => {
     clearCart();
-    toast.success('Carrito vaciado', { duration: 3000 });
+    toast.success('Carrito vaciado');
   };
 
   if (cart.length === 0) {
@@ -84,16 +53,7 @@ export default function CartItems() {
 
   return (
     <div className="flex flex-col h-full">
-       <Toaster 
-        position="bottom-right"
-        toastOptions={{
-          duration: 5000,
-          style: {
-            background: '#363636',
-            color: '#fff',
-          },
-        }}
-      />
+      <Toaster position="bottom-right" />
       <div className="flex-grow overflow-y-auto p-4 space-y-4">
         <AnimatePresence>
           {cart.map((item) => (

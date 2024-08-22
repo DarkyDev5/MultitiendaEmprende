@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import FormFields from "./FormFields";
 import CategoryFields from "./CategoryFields";
 import ImageFields from "./ImageFields";
-import PreviewImages from "./PreviewImages";
 import useProductForm from "@/src/hooks/useProductForm";
 import { UseFormReturn } from "react-hook-form";
 import { ProductFormData } from "@/src/types/product";
@@ -62,12 +61,6 @@ export default function AdminProductForm() {
       <motion.div variants={childVariants}>
         <ImageFields control={control} errors={errors} />
       </motion.div>
-
-      {previewImages.length > 0 && (
-        <motion.div variants={childVariants}>
-          <PreviewImages images={previewImages} />
-        </motion.div>
-      )}
 
       <motion.div variants={childVariants} className="space-y-2">
         <label className="block text-sm font-medium text-gray-700">Descripción Completa:</label>

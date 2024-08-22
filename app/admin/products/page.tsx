@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react"
 import { redirect } from 'next/navigation'
 import { useState } from 'react'
-import AdminProductForm from '@/src/componentsAdmin/products/AdminProductForm';
+import AdminProductForm from '@/src/componentsAdmin/AdminProductForm/AdminProductForm';
 import AdminProductList from './components/AdminProductList'
 
 export default function AdminPage() {

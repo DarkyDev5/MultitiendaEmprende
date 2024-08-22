@@ -1,38 +1,53 @@
 // types/product.ts
+export interface Review {
+  userId: string;
+  rating: number;
+  comment: string;
+  createdAt: Date;
+}
 
-// Esta interfaz se usa para el formulario de ingreso de productos
 export interface ProductFormData {
   id: string;
   name: string;
+  brand: string;
   price: number;
   rating: number;
   shortDescription: string;
   originalPrice: number;
-  color: string;
+  color?: string;
   category: string;
   subcategory: string;
-  image: FileList | null;
-  images: FileList | null;
-  fullDescription: string;
+  image: FileList | string | null;
+  images?: FileList | string[] | null;
+  fullDescription: string[];
+  seller: string;
+  hasStock: boolean;
+  stock?: number | null;
 }
-// Esta interfaz se usa para los productos que se muestran en la lista
+
 export interface ProductData {
   id: string;
   name: string;
+  brand: string;
   price: number;
-  image: string;  // URL de la imagen como string
+  image: string;
   rating: number;
+  reviewCount: number;
+  reviews: Review[];
   subcategory: string;
   category: string;
   fullDescription: string[];
   shortDescription: string;
   originalPrice: number;
-  color: string;
-  images: string[];  // Array de URLs de imágenes como strings
-  createdAt?: string; 
+  color?: string;
+  images: string[];
+  seller: string;
+  hasStock: boolean;
+  stock?: number | null;
+  createdAt?: string;
 }
 
-// Definición de categorías (si la necesitas)
+// Definición de categorías
 export interface Category {
   [key: string]: string[];
 }
@@ -45,7 +60,6 @@ export const categories: Category = {
   Ofertas: ['']
 };
 
-
 // Cart Context
 export interface CartItem {
   product: {
@@ -55,7 +69,8 @@ export interface CartItem {
     image: string;
     category: string;
     subcategory: string;
-    // Añade aquí cualquier otra propiedad que estés utilizando en tu componente Cart
+    brand: string;
+    seller: string;
   };
   quantity: number;
 }
@@ -71,6 +86,6 @@ export interface CartContextType {
   getItemCount: () => number;
   isInCart: (productId: string) => boolean;
   openCart: () => void;  
-  closeCart: () => void; 
+  closeCart: () => void;
   getTotal: () => number;
 }
