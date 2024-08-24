@@ -29,18 +29,14 @@ export function useCart(): CartContextType {
       }
       return [...prevCart, {
         product: {
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          image: product.image,
-          category: product.category,
-          subcategory: product.subcategory
+          ...product,
+          brand: product.brand || '', 
+          seller: product.seller || '', 
         },
         quantity
       }];
     });
   }, []);
-
   const removeFromCart = useCallback((productId: string) => {
     setCart(prevCart => prevCart.filter(item => item.product.id !== productId));
   }, []);
