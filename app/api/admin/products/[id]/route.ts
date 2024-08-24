@@ -3,7 +3,6 @@ import dbConnect from '@/src/lib/mongodb';
 import Product from '@/src/models/Product';
 import cloudinary from '@/src/utils/cloudinary';
 
-
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
@@ -46,6 +45,10 @@ export async function PUT(
       } else if (key.startsWith('images[') && value instanceof Blob) {
         const index = parseInt(key.match(/\d+/)?.[0] || '0', 10);
         additionalImages[index] = await uploadToCloudinary(value);
+      } else if (key === 'hasStock') {
+        productData[key] = value === 'true';
+      } else if (key === 'stock') {
+        productData[key] = value === '' ? null : Number(value);
       } else {
         productData[key] = value;
       }
@@ -55,11 +58,19 @@ export async function PUT(
       productData.images = additionalImages.filter(Boolean);
     }
 
-    const updatedProduct = await Product.findOneAndUpdate({ id: productId }, productData, { new: true });
-    
+    console.log('Updating product with data:', productData);
+
+    const updatedProduct = await Product.findOneAndUpdate(
+      { id: productId },
+      productData,
+      { new: true, runValidators: true }
+    );
+   
     if (!updatedProduct) {
       return NextResponse.json({ error: 'Producto no encontrado' }, { status: 404 });
     }
+
+    console.log('Updated product:', updatedProduct);
 
     return NextResponse.json({ message: 'Producto actualizado exitosamente', product: updatedProduct });
   } catch (error) {

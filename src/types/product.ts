@@ -53,8 +53,8 @@ export interface Category {
 }
 
 export const categories: Category = {
-  Tecnologia: ['Computadores', 'Monitores', 'Discos-Duros', 'Accesorios'],
-  Cocina: ['Maquinas Obleas Trabajo Liviano', 'Maquinas Obleas Semi Industrial', 'Maquinas Pela Mangos', 'Electrodomésticos de Cocina'],
+  Tecnologia: ['Computadores', 'Monitores', 'Discos Duros', 'Altavoces para Escritorio','Accesorios'],
+  Cocina: ['Maquinas Obleas Trabajo Liviano', 'Maquinas Obleas Semi Industrial', 'Freidora de Aire', 'Licuadoras'],
   Belleza: ['Maquillaje', 'Cremas'],
   Deportes: ['Proteinas'],
   Ofertas: ['']

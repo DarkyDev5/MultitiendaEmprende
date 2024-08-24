@@ -66,7 +66,7 @@ export default function AdminProductList() {
           <p className="mb-1">Precio: ${product.price.toFixed(2)}</p>
           <p className="mb-1">Categoría: {product.category}</p>
           <p className="mb-1">Subcategoría: {product.subcategory}</p>
-          <p className="mb-1">Stock: {product.stock !== undefined ? product.stock : 'N/A'}</p>
+          <div className="text-sm text-gray-600"> {product.hasStock ? `Stock: ${product.stock}` : 'Sin stock'} </div>
           <p className="mb-1">Vendedor: {product.seller || 'N/A'}</p>
           <p className="text-sm mb-2">{product.shortDescription}</p>
           <div className="flex justify-between mt-4">

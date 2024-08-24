@@ -2,9 +2,11 @@ import React from 'react';
 import { ProductData } from '@/src/types/product';
 import { notFound } from 'next/navigation';
 import ProductDetails from '@/src/components/Products/ProductDetails/ProductDetails';
+import { encodeUrlParam } from '@/src/utils/urlUtils';
+
 
 async function getProductDetails(category: string, subcategory: string, id: string): Promise<ProductData | null> {
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/admin/products?category=${encodeURIComponent(category)}&subcategory=${encodeURIComponent(subcategory)}&id=${encodeURIComponent(id)}`;
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/admin/products?category=${encodeUrlParam(category)}&subcategory=${encodeUrlParam(subcategory)}&id=${encodeUrlParam(id)}`;
  
   console.log('Fetching product from:', url);
   try {
@@ -39,7 +41,6 @@ export default async function ProductDetailsPage({
     }
     return (
       <div className="w-full">
-        <h1 className="text-3xl font-bold mb-6 px-4 sm:px-6 lg:px-8">{params.category} - {params.subcategory}</h1>
         <ProductDetails product={product} />
       </div>
     );

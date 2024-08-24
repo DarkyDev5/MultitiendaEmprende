@@ -1,10 +1,9 @@
 // app/components/InteractiveProductSection.tsx
 'use client'
-
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Filter from './Filter';
-import ProductList from './ProductList';
-import { ProductData } from '@/src/types/product';
+import ProductList from './ProductList/ProductList';
+import { ProductData, categories } from '@/src/types/product';
 
 interface InteractiveProductSectionProps {
   category: string;
@@ -12,18 +11,17 @@ interface InteractiveProductSectionProps {
   initialProducts: ProductData[];
 }
 
-const InteractiveProductSection: React.FC<InteractiveProductSectionProps> = ({ 
-  category, 
-  subcategory, 
-  initialProducts 
-}) => {
+const InteractiveProductSection = ({
+  category,
+  subcategory,
+  initialProducts
+}: InteractiveProductSectionProps) => {
   const [products, setProducts] = useState(initialProducts);
   const [sortBy, setSortBy] = useState('default');
   const [priceRange, setPriceRange] = useState({ min: '', max: '' });
 
   useEffect(() => {
     let filteredAndSortedProducts = [...initialProducts];
-
     // Aplicar filtro de precio
     if (priceRange.min !== '' || priceRange.max !== '') {
       filteredAndSortedProducts = filteredAndSortedProducts.filter(product => {
@@ -32,7 +30,6 @@ const InteractiveProductSection: React.FC<InteractiveProductSectionProps> = ({
         return product.price >= min && product.price <= max;
       });
     }
-
     // Aplicar ordenación
     switch (sortBy) {
       case 'priceLowToHigh':
@@ -45,20 +42,14 @@ const InteractiveProductSection: React.FC<InteractiveProductSectionProps> = ({
         filteredAndSortedProducts.sort((a, b) => b.rating - a.rating);
         break;
       case 'newest':
-        // Usamos el ID como aproximación para la novedad
-        // Asumiendo que los IDs más recientes son mayores
         filteredAndSortedProducts.sort((a, b) => {
-          // Si los IDs son numéricos
           if (!isNaN(Number(a.id)) && !isNaN(Number(b.id))) {
             return Number(b.id) - Number(a.id);
           }
-          // Si los IDs son strings, comparamos lexicográficamente
           return b.id.localeCompare(a.id);
         });
         break;
-      // Puedes añadir más casos de ordenación según necesites
     }
-
     setProducts(filteredAndSortedProducts);
   }, [initialProducts, sortBy, priceRange]);
 
@@ -73,7 +64,7 @@ const InteractiveProductSection: React.FC<InteractiveProductSectionProps> = ({
   return (
     <div className="flex flex-col lg:flex-row lg:space-x-8">
       <div className="w-full lg:w-64 mb-6 lg:mb-0">
-        <Filter 
+        <Filter
           category={category}
           subcategory={subcategory}
           onSortChange={handleSortChange}

@@ -1,26 +1,26 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { categories } from "@/src/types/product";
-import { FieldErrors, Control, Controller, UseFormWatch } from "react-hook-form";
+import { Control, Controller, UseFormWatch } from "react-hook-form";
 import { ProductFormData } from "@/src/types/product";
 
 interface CategoryFieldsProps {
   control: Control<ProductFormData>;
   watch: UseFormWatch<ProductFormData>;
-  errors: FieldErrors<ProductFormData>;
+  errors: any;
 }
 
 export default function CategoryFields({ control, watch, errors }: CategoryFieldsProps) {
   return (
     <div className="space-y-6">
       {["category", "subcategory"].map((field) => (
-        <motion.div 
-          key={field} 
+        <motion.div
+          key={field}
           className="relative"
           whileHover={{ scale: 1.02 }}
           transition={{ type: "spring", stiffness: 300 }}
         >
-          <label 
+          <label
             htmlFor={field}
             className="block text-sm font-medium text-gray-700 mb-1 transition-colors duration-200"
           >
@@ -30,14 +30,14 @@ export default function CategoryFields({ control, watch, errors }: CategoryField
             name={field as "category" | "subcategory"}
             control={control}
             render={({ field: { onChange, value } }) => (
-              <select 
+              <select
                 id={field}
                 onChange={onChange}
                 value={value}
                 className="block w-full px-4 py-3 rounded-lg bg-white border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-colors duration-200 appearance-none"
               >
                 <option value="">Seleccione {field === "category" ? "una categoría" : "una subcategoría"}</option>
-                {field === "category" 
+                {field === "category"
                   ? Object.keys(categories).map(cat => <option key={cat} value={cat}>{cat}</option>)
                   : categories[watch("category")]?.map(sub => <option key={sub} value={sub}>{sub}</option>)
                 }

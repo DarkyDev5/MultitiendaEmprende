@@ -7,6 +7,7 @@ import ImageGallery from './ImageGallery';
 import ProductInformation from './ProductInformation';
 import PurchaseOptions from './PurchaseOptions';
 import FullDescription from './FullDescription';
+import { decodeUrlParam } from '@/src/utils/urlUtils';
 
 interface ProductDetailsProps {
   product: ProductData;
@@ -31,6 +32,9 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8 py-8">
+       <h1 className="text-3xl font-bold mb-6">
+        {decodeUrlParam(product.category)} - {decodeUrlParam(product.subcategory)}
+      </h1>
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Left Column - Image Gallery */}
         <div className="w-full lg:w-2/5">

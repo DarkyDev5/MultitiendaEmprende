@@ -8,6 +8,7 @@ interface Review {
 }
 
 export interface IProduct extends Document {
+  id: string;
   name: string;
   brand: string;
   price: number;
@@ -24,7 +25,7 @@ export interface IProduct extends Document {
   color?: string;
   seller: string;
   hasStock: boolean;
-  stock?: number | null;
+  stock: number | null;
 }
 
 const reviewSchema = new Schema<Review>({
@@ -51,13 +52,12 @@ const productSchema = new Schema<IProduct>({
   originalPrice: { type: Number, required: true },
   color: { type: String, required: false },
   seller: { type: String, required: true },
-  hasStock: { type: Boolean, required: true, default: true },
-  stock: { type: Number, required: false, default: null }
+  hasStock: { type: Boolean, default: false },
+  stock: { type: Number, default: null },
 }, {
   timestamps: true
 });
 
-// Índices para mejorar el rendimiento de las consultas
 productSchema.index({ id: 1 });
 productSchema.index({ category: 1, subcategory: 1 });
 productSchema.index({ name: 'text', brand: 'text' });

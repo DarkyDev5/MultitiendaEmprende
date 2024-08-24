@@ -15,7 +15,6 @@ export default function ImageFields({ control, errors }: ImageFieldsProps) {
     if (value instanceof File) return [value];
     if (Array.isArray(value) && value.every(item => item instanceof File)) return value as File[];
     if (Array.isArray(value) && value.every(item => typeof item === 'string')) {
-      // Si son URLs, podrías manejarlas de alguna manera aquí
       console.warn('URLs de imágenes detectadas. Considera cómo manejarlas.');
       return null;
     }
