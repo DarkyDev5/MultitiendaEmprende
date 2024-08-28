@@ -1,4 +1,3 @@
-// types/product.ts
 export interface Review {
   userId: string;
   rating: number;
@@ -13,16 +12,16 @@ export interface ProductFormData {
   price: number;
   rating: number;
   shortDescription: string;
-  originalPrice: number;
-  color?: string;
+  originalPrice?: number | null;
+  color?: string | null;
   category: string;
   subcategory: string;
-  image: FileList | string | null;
-  images?: FileList | string[] | null;
-  fullDescription: string[];
+  image: string | File;
+  images: (string | File)[];
+  fullDescription: string;
   seller: string;
   hasStock: boolean;
-  stock?: number | null;
+  stock: number | null;
 }
 
 export interface ProductData {
@@ -36,7 +35,7 @@ export interface ProductData {
   reviews: Review[];
   subcategory: string;
   category: string;
-  fullDescription: string[];
+  fullDescription: string;
   shortDescription: string;
   originalPrice: number;
   color?: string;
@@ -54,7 +53,7 @@ export interface Category {
 
 export const categories: Category = {
   Tecnologia: ['Computadores', 'Monitores', 'Discos Duros', 'Altavoces para Escritorio','Accesorios'],
-  Cocina: ['Maquinas Obleas Trabajo Liviano', 'Maquinas Obleas Semi Industrial', 'Freidora de Aire', 'Licuadoras'],
+  Cocina: ['Maquinas Obleas Trabajo Liviano', 'Maquinas Obleas Semi Industrial', 'Freidoras de Aire', 'Licuadoras'],
   Belleza: ['Maquillaje', 'Cremas'],
   Deportes: ['Proteinas'],
   Ofertas: ['']
@@ -88,4 +87,9 @@ export interface CartContextType {
   openCart: () => void;  
   closeCart: () => void;
   getTotal: () => number;
+}
+
+export interface ProductFormDefaultValues extends Omit<ProductFormData, 'image' | 'images'> {
+  image?: string | File;
+  images?: (string | File)[];
 }

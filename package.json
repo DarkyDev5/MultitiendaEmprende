@@ -69,6 +69,7 @@
     "react-konva": "^18.2.10",
     "react-leaflet": "^4.2.1",
     "react-query": "^3.39.3",
+    "react-quill": "^2.0.0",
     "react-redux": "^9.0.4",
     "react-router-dom": "^6.21.1",
     "react-scroll-parallax": "^3.4.5",

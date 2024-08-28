@@ -1,25 +1,24 @@
 'use client';
-
 import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { motion } from 'framer-motion';
 import { X } from 'lucide-react';
 
 interface FileUploadProps {
-  onChange: (files: File[]) => void;
-  value: File | File[] | null;
+  onChange: (files: (File | string)[]) => void;
+  value: File | string | (File | string)[] | null;
   multiple?: boolean;
   maxFiles?: number;
+  required?: boolean;
 }
 
 const FileUpload = ({ onChange, value, multiple = false, maxFiles = 5 }: FileUploadProps) => {
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (multiple) {
-      onChange(acceptedFiles.slice(0, maxFiles));
+      onChange([...(Array.isArray(value) ? value : []), ...acceptedFiles].slice(0, maxFiles));
     } else {
       onChange([acceptedFiles[0]]);
     }
-  }, [onChange, multiple, maxFiles]);
+  }, [onChange, multiple, maxFiles, value]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -30,8 +29,8 @@ const FileUpload = ({ onChange, value, multiple = false, maxFiles = 5 }: FileUpl
 
   const files = Array.isArray(value) ? value : (value ? [value] : []);
 
-  const removeFile = (file: File) => {
-    const newFiles = files.filter(f => f !== file);
+  const removeFile = (fileToRemove: File | string) => {
+    const newFiles = files.filter(file => file !== fileToRemove);
     onChange(multiple ? newFiles : newFiles.length > 0 ? [newFiles[0]] : []);
   };
 
@@ -57,7 +56,7 @@ const FileUpload = ({ onChange, value, multiple = false, maxFiles = 5 }: FileUpl
               key={index}
               className="flex items-center justify-between bg-gray-100 p-2 rounded"
             >
-              <span className="truncate">{file.name}</span>
+              <span className="truncate">{typeof file === 'string' ? file : file.name}</span>
               <button
                 onClick={() => removeFile(file)}
                 className="text-red-500 hover:text-red-700"

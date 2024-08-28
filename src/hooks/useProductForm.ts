@@ -1,9 +1,9 @@
 import { useState, useCallback } from "react";
-import { useForm, UseFormReturn } from "react-hook-form";
+import { Resolver, useForm, UseFormReturn } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import { useTransition } from 'react';
-import { ProductFormData } from "../types/product";
+import { ProductFormData, ProductFormDefaultValues } from "../types/product";
 import { productSchema } from "../schemas/productSchema";
 
 export default function useProductForm(): {
@@ -11,35 +11,54 @@ export default function useProductForm(): {
   onSubmit: (data: ProductFormData) => void;
   isPending: boolean;
   previewImages: string[];
-  handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleImageChange: (fieldName: 'image' | 'images', files: File[]) => void;
 } {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [previewImages, setPreviewImages] = useState<string[]>([]);
  
   const formMethods = useForm<ProductFormData>({
-    resolver: yupResolver(productSchema) as any,
+    resolver: yupResolver(productSchema) as Resolver<ProductFormData>,
     defaultValues: {
+      id: "",
+      name: "",
+      brand: "",
+      price: 0,
+      rating: 1,
+      shortDescription: "",
+      originalPrice: null,
+      color: null,
       category: "",
       subcategory: "",
-      image: null,
-      images: null,
-      fullDescription: [""],
+      image: "",
+      images: [],
+      fullDescription: "",
+      seller: "",
       hasStock: false,
       stock: null,
-    },
+    } as ProductFormDefaultValues,
   });
-
+ 
   const onSubmit = useCallback((data: ProductFormData) => {
     startTransition(async () => {
       const formData = new FormData();
       Object.entries(data).forEach(([key, value]) => {
-        if (key === "image" && value instanceof FileList && value[0]) {
-          formData.append("image", value[0]);
-        } else if (key === "images" && value instanceof FileList) {
-          Array.from(value)
-            .sort((a, b) => a.name.localeCompare(b.name, undefined, {numeric: true}))
-            .forEach((file, index) => formData.append(`images[${index}]`, file));
+        if (key === "image") {
+          if (value instanceof File) {
+            formData.append("image", value);
+          } else if (typeof value === 'string') {
+            formData.append("image", value);
+          }
+        } else if (key === "images") {
+          if (Array.isArray(value)) {
+            value.forEach((img, index) => {
+              if (img instanceof File) {
+                formData.append(`images`, img);
+              } else if (typeof img === 'string') {
+                formData.append(`images`, img);
+              }
+            });
+          }
         } else if (value !== null && value !== undefined) {
           formData.append(key, value.toString());
         }
@@ -65,20 +84,23 @@ export default function useProductForm(): {
     });
   }, [router]);
 
-  const handleImageChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files && files.length > 0) {
-      const sortedFiles = Array.from(files).sort((a, b) =>
-        a.name.localeCompare(b.name, undefined, {numeric: true})
-      );
-      const newPreviewImages = sortedFiles.map(file => URL.createObjectURL(file));
-      setPreviewImages(prevImages => {
-        // Limpia las URLs de objetos anteriores para evitar fugas de memoria
-        prevImages.forEach(URL.revokeObjectURL);
-        return newPreviewImages;
-      });
+  const handleImageChange = useCallback((fieldName: 'image' | 'images', files: File[]) => {
+    const sortedFiles = files.sort((a, b) =>
+      a.name.localeCompare(b.name, undefined, {numeric: true})
+    );
+    const newPreviewImages = sortedFiles.map(file => URL.createObjectURL(file));
+    setPreviewImages(prevImages => {
+      prevImages.forEach(URL.revokeObjectURL);
+      return newPreviewImages;
+    });
+
+    // Actualizar el valor del formulario
+    if (fieldName === 'image') {
+      formMethods.setValue('image', sortedFiles[0]);
+    } else {
+      formMethods.setValue('images', sortedFiles);
     }
-  }, []);
+  }, [formMethods]);
 
   return { formMethods, onSubmit, isPending, previewImages, handleImageChange };
 }

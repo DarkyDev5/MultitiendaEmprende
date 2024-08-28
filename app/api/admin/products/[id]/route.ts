@@ -1,30 +1,47 @@
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/src/lib/mongodb';
-import Product from '@/src/models/Product';
-import cloudinary from '@/src/utils/cloudinary';
+import Product, { IProduct } from '@/src/models/Product';
+import { verifyImageExists, deleteFromCloudinary } from '@/src/utils/cloudinaryUtils';
+import { processFormData } from '@/src/utils/processFormData';
 
-export async function DELETE(
-  request: NextRequest,
+export async function GET(
+  _request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
     await dbConnect();
-    
-    const productId = params.id;
-    console.log('Attempting to delete product with ID:', productId);
+    const product = await Product.findOne({ id: params.id });
 
-    const deletedProduct = await Product.findOneAndDelete({ id: productId });
-
-    if (!deletedProduct) {
-      console.log('Product not found:', productId);
+    if (!product) {
       return NextResponse.json({ error: 'Producto no encontrado' }, { status: 404 });
     }
 
-    console.log('Product deleted successfully:', productId);
-    return NextResponse.json({ message: 'Producto eliminado exitosamente' }, { status: 200 });
+    const verifiedProduct = product.toObject();
+    if (verifiedProduct.image) {
+      verifiedProduct.image = await verifyImageExists(verifiedProduct.image)
+        ? verifiedProduct.image
+        : '/placeholder.jpg';
+    }
+
+    return NextResponse.json(verifiedProduct);
   } catch (error) {
-    console.error('Error deleting product:', error);
-    return NextResponse.json({ error: 'Error al eliminar el producto' }, { status: 500 });
+    console.error('Error fetching product:', error);
+    return NextResponse.json({ error: 'Error al obtener el producto' }, { status: 500 });
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    await dbConnect();
+    const formData = await request.formData();
+    const productData = processFormData(formData);
+
+    const product = new Product(productData);
+    await product.save();
+    return NextResponse.json({ message: 'Producto agregado exitosamente', product }, { status: 201 });
+  } catch (error) {
+    console.error('Error en POST request:', error);
+    return NextResponse.json({ error: 'Error al añadir el producto' }, { status: 500 });
   }
 }
 
@@ -34,44 +51,18 @@ export async function PUT(
 ) {
   try {
     await dbConnect();
-    const productId = params.id;
     const formData = await request.formData();
-    const productData: any = {};
-    const additionalImages: string[] = [];
-
-    for (const [key, value] of formData.entries()) {
-      if (key === 'image' && value instanceof Blob) {
-        productData.image = await uploadToCloudinary(value);
-      } else if (key.startsWith('images[') && value instanceof Blob) {
-        const index = parseInt(key.match(/\d+/)?.[0] || '0', 10);
-        additionalImages[index] = await uploadToCloudinary(value);
-      } else if (key === 'hasStock') {
-        productData[key] = value === 'true';
-      } else if (key === 'stock') {
-        productData[key] = value === '' ? null : Number(value);
-      } else {
-        productData[key] = value;
-      }
-    }
-
-    if (additionalImages.length > 0) {
-      productData.images = additionalImages.filter(Boolean);
-    }
-
-    console.log('Updating product with data:', productData);
+    const productData = processFormData(formData);
 
     const updatedProduct = await Product.findOneAndUpdate(
-      { id: productId },
+      { id: params.id },
       productData,
       { new: true, runValidators: true }
     );
-   
+
     if (!updatedProduct) {
       return NextResponse.json({ error: 'Producto no encontrado' }, { status: 404 });
     }
-
-    console.log('Updated product:', updatedProduct);
-
     return NextResponse.json({ message: 'Producto actualizado exitosamente', product: updatedProduct });
   } catch (error) {
     console.error('Error updating product:', error);
@@ -79,15 +70,31 @@ export async function PUT(
   }
 }
 
-async function uploadToCloudinary(file: Blob): Promise<string> {
-  const buffer = Buffer.from(await file.arrayBuffer());
-  return new Promise((resolve, reject) => {
-    cloudinary.uploader.upload_stream(
-      { resource_type: "auto", folder: "products" },
-      (error, result) => {
-        if (error) reject(error);
-        else resolve(result!.secure_url);
-      }
-    ).end(buffer);
-  });
+export async function DELETE(
+  _request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    await dbConnect();
+    const deletedProduct = await Product.findOneAndDelete({ id: params.id });
+
+    if (!deletedProduct) {
+      return NextResponse.json({ error: 'Producto no encontrado' }, { status: 404 });
+    }
+
+    // Delete the main image from Cloudinary
+    if (deletedProduct.image) {
+      await deleteFromCloudinary(deletedProduct.image);
+    }
+
+    // Delete additional images from Cloudinary
+    if (deletedProduct.images && Array.isArray(deletedProduct.images)) {
+      await Promise.all(deletedProduct.images.map(deleteFromCloudinary));
+    }
+
+    return NextResponse.json({ message: 'Producto y sus imágenes eliminados exitosamente' });
+  } catch (error) {
+    console.error('Error deleting product:', error);
+    return NextResponse.json({ error: 'Error al eliminar el producto' }, { status: 500 });
+  }
 }

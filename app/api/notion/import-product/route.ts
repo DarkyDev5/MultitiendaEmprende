@@ -61,32 +61,29 @@ export async function GET(request: NextRequest) {
     }
 }
 
-function convertNotionPageToProduct(page: any): ProductFormData {
+function convertNotionPageToProduct(page: any): Omit<ProductFormData, 'image' | 'images'> {
     try {
-        const product: ProductFormData = {
-            id: page.properties.ID.number?.toString() || '',
-            name: page.properties.Name.title[0]?.plain_text || '',
-            brand: page.properties.Brands.rich_text[0]?.plain_text || '',
-            price: page.properties.Price.number || 0,
-            rating: page.properties['Rating '].number || 0,
-            shortDescription: page.properties['Short Description '].rich_text[0]?.plain_text || '',
-            originalPrice: page.properties['Original Price'].number || 0,
-            color: page.properties['Color '].rich_text[0]?.plain_text || '',
-            category: page.properties.Category.select?.name || '',
-            subcategory: page.properties['Subcategory '].select?.name || '',
-            image: null,
-            images: null,
-            fullDescription: page.properties['Full Description '].rich_text[0]?.plain_text || '',
-            seller: page.properties['Seller '].rich_text[0]?.plain_text || '',
-            hasStock: page.properties['Has Stock '].checkbox || false,
-            stock: page.properties.Stock.number || null,
-        };
-
-        console.log('Converted product:', product);
-        return product;
+      const product: Omit<ProductFormData, 'image' | 'images'> = {
+        id: page.properties.ID.number?.toString() || '',
+        name: page.properties.Name.title[0]?.plain_text || '',
+        brand: page.properties.Brands.rich_text[0]?.plain_text || '',
+        price: page.properties.Price.number || 0,
+        rating: page.properties['Rating '].number || 0,
+        shortDescription: page.properties['Short Description '].rich_text[0]?.plain_text || '',
+        originalPrice: page.properties['Original Price'].number || null,
+        color: page.properties['Color '].rich_text[0]?.plain_text || null,
+        category: page.properties.Category.select?.name || '',
+        subcategory: page.properties['Subcategory '].select?.name || '',
+        fullDescription: page.properties['Full Description '].rich_text.map((text: any) => text.plain_text).join('\n') || '',
+        seller: page.properties['Seller '].rich_text[0]?.plain_text || '',
+        hasStock: page.properties['Has Stock '].checkbox || false,
+        stock: page.properties.Stock.number || null,
+      };
+      console.log('Converted product:', product);
+      return product;
     } catch (error) {
-        console.error('Error converting Notion page to product:', error);
-        console.error('Problematic page data:', JSON.stringify(page, null, 2));
-        throw error;
+      console.error('Error converting Notion page to product:', error);
+      console.error('Problematic page data:', JSON.stringify(page, null, 2));
+      throw error;
     }
-}
+  }

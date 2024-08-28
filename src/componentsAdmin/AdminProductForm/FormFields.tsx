@@ -1,12 +1,15 @@
-'use client'
-
 import React from "react";
 import { motion } from "framer-motion";
 import { Controller, useFormContext } from "react-hook-form";
 import { ProductFormData } from "@/src/types/product";
+import dynamic from 'next/dynamic';
+import 'react-quill/dist/quill.snow.css';
+
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const fieldNames: { [key: string]: string } = {
   id: "ID",
+  name: "Nombre",
   brand: "Marca",
   price: "Precio",
   rating: "Calificación inicial",
@@ -20,18 +23,20 @@ const fieldNames: { [key: string]: string } = {
 };
 
 const fieldConfig = [
-  { name: "id", type: "text" },
-  { name: "brand", type: "text" },
-  { name: "price", type: "number" },
-  { name: "rating", type: "number", min: 0, max: 5, step: 0.1 },
-  { name: "shortDescription", type: "textarea" },
-  { name: "originalPrice", type: "number" },
-  { name: "color", type: "text" },
-  { name: "fullDescription", type: "textarea" },
-  { name: "seller", type: "text" },
-  { name: "hasStock", type: "checkbox" },
-  { name: "stock", type: "number", min: 0 },
+  { name: "id", type: "number", required: true },
+  { name: "name", type: "text", required: true },
+  { name: "brand", type: "text", required: true },
+  { name: "price", type: "number", required: true },
+  { name: "rating", type: "number", min: 0, max: 5, step: 0.1, required: false },
+  { name: "shortDescription", type: "textarea", required: true },
+  { name: "originalPrice", type: "number", required: false },
+  { name: "color", type: "text", required: false },
+  { name: "fullDescription", type: "quill", required: true },
+  { name: "seller", type: "text", required: true },
+  { name: "hasStock", type: "checkbox", required: false },
+  { name: "stock", type: "number", min: 0, required: false },
 ];
+
 
 export default function FormFields() {
   const formContext = useFormContext<ProductFormData>();
@@ -45,7 +50,7 @@ export default function FormFields() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-       {fieldConfig.map(({ name, type, ...rest }) => (
+      {fieldConfig.map(({ name, type, required, ...rest }) => (
         <motion.div
           key={name}
           className="relative"
@@ -57,12 +62,35 @@ export default function FormFields() {
             className="block text-sm font-medium text-gray-700 mb-1 transition-colors duration-200"
           >
             {fieldNames[name] || name.replace(/([A-Z])/g, " $1").trim()}
-            {name !== 'color' && name !== 'hasStock' && ' *'}
+            {required && '*'}
           </label>
           <Controller
             name={name as keyof ProductFormData}
             control={control}
+            rules={{ required: required ? 'Este campo es obligatorio' : false }}
             render={({ field }) => {
+              if (type === 'quill' && name === 'fullDescription') {
+                return (
+                  <ReactQuill
+                    theme="snow"
+                    value={typeof field.value === 'string' ? field.value : ''}
+                    onChange={(content: string) => {
+                      field.onChange(content);
+                    }}
+                    onBlur={field.onBlur}
+                    modules={{
+                      toolbar: [
+                        ['bold', 'italic', 'underline', 'strike'],
+                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                        ['link', 'image'],
+                        ['clean']
+                      ],
+                    }}
+                    className="bg-white"
+                  />
+                );
+              }
+
               if (type === 'checkbox' && name === 'hasStock') {
                 return (
                   <input
@@ -77,12 +105,11 @@ export default function FormFields() {
                   />
                 );
               }
-             
+
               if (name === 'stock') {
                 return (
                   <input
                     id={name}
-                    {...field}
                     type={type}
                     {...rest}
                     value={hasStock ? (field.value as number | undefined ?? '') : ''}
@@ -90,19 +117,41 @@ export default function FormFields() {
                       const value = e.target.value;
                       field.onChange(value === '' ? null : Number(value));
                     }}
+                    onBlur={field.onBlur}
+                    name={field.name}
+                    ref={field.ref}
                     className="block w-full px-4 py-3 rounded-lg bg-white border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-colors duration-200"
                     disabled={!hasStock}
                   />
                 );
               }
 
+              if (type === 'textarea') {
+                return (
+                  <textarea
+                    id={name}
+                    {...rest}
+                    value={field.value as string}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    name={field.name}
+                    ref={field.ref}
+                    className="block w-full px-4 py-3 rounded-lg bg-white border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-colors duration-200"
+                  />
+                );
+              }
+
+              // Default input rendering for other types
               return (
                 <input
                   id={name}
-                  {...field}
                   type={type}
                   {...rest}
                   value={field.value as string | number | undefined ?? ''}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  name={field.name}
+                  ref={field.ref}
                   className="block w-full px-4 py-3 rounded-lg bg-white border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-colors duration-200"
                 />
               );

@@ -79,17 +79,6 @@ export default function AdminProductForm() {
         <motion.div variants={childVariants}>
           <ImageFields control={control} errors={errors} />
         </motion.div>
-        <motion.div variants={childVariants} className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">Descripción Completa:</label>
-          <textarea
-            {...register("fullDescription")}
-            className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 transition duration-200"
-            rows={6}
-          />
-          {errors.fullDescription && (
-            <p className="mt-2 text-sm text-red-600 animate-pulse">{errors.fullDescription.message}</p>
-          )}
-        </motion.div>
         <motion.button
           type="submit"
           className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:ring-opacity-50 transition duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"

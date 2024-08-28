@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState, useEffect } from 'react';
 import { ProductData } from '@/src/types/product';
 import Image from 'next/image';
@@ -10,38 +8,42 @@ export default function AdminProductList() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    console.log('Fetching products...');
-    fetch('/api/products')
-      .then(res => res.json())
-      .then(data => {
-        console.log('Products fetched:', data);
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('/api/products');
+        if (!response.ok) {
+          throw new Error('Failed to fetch products');
+        }
+        const data = await response.json();
         setProducts(data);
-      })
-      .catch(console.error)
-      .finally(() => setIsLoading(false));
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchProducts();
   }, []);
 
   const deleteProduct = async (productId: string) => {
     try {
-      console.log('Deleting product with ID:', productId);
       const response = await fetch(`/api/admin/products/${productId}`, {
         method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
       });
-      console.log('Delete response:', response);
- 
       if (response.ok) {
-        console.log('Product deleted successfully');
-        setProducts(prev => prev.filter(p => p.id !== productId));
+        setProducts(prevProducts => prevProducts.filter(p => p.id !== productId));
       } else {
-        const errorText = await response.text();
-        console.error('Failed to delete product:', errorText);
+        throw new Error('Failed to delete product');
       }
     } catch (error) {
       console.error('Error deleting product:', error);
     }
+  };
+
+  const getImageSrc = (image: string | File | null): string => {
+    if (!image) return '/placeholder.jpg';
+    if (typeof image === 'string' && image.startsWith('http')) return image;
+    return '/placeholder.jpg';
   };
 
   if (isLoading) return <div>Cargando productos...</div>;
@@ -53,7 +55,7 @@ export default function AdminProductList() {
         <div key={product.id} className="border p-4 rounded-lg shadow-md">
           <div className="relative h-40 w-full mb-2">
             <Image
-              src={product.image}
+              src={getImageSrc(product.image)}
               alt={product.name}
               layout="fill"
               objectFit="cover"
@@ -66,7 +68,9 @@ export default function AdminProductList() {
           <p className="mb-1">Precio: ${product.price.toFixed(2)}</p>
           <p className="mb-1">Categoría: {product.category}</p>
           <p className="mb-1">Subcategoría: {product.subcategory}</p>
-          <div className="text-sm text-gray-600"> {product.hasStock ? `Stock: ${product.stock}` : 'Sin stock'} </div>
+          <div className="text-sm text-gray-600">
+            {product.hasStock ? `Stock: ${product.stock}` : 'Sin stock'}
+          </div>
           <p className="mb-1">Vendedor: {product.seller || 'N/A'}</p>
           <p className="text-sm mb-2">{product.shortDescription}</p>
           <div className="flex justify-between mt-4">

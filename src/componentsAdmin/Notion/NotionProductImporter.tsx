@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { ProductFormData } from '@/src/types/product';
-
 interface NotionProductImporterProps {
   onProductImport: (product: ProductFormData) => void;
 }
@@ -14,7 +13,6 @@ export default function NotionProductImporter({ onProductImport }: NotionProduct
 
   const handleImportProduct = async () => {
     if (!notionProductId) return;
-
     setIsLoading(true);
     setError(null);
     try {
@@ -25,7 +23,7 @@ export default function NotionProductImporter({ onProductImport }: NotionProduct
       
       const responseText = await response.text();
       console.log('Response text:', responseText);
-
+      
       let data;
       try {
         data = JSON.parse(responseText);
@@ -38,8 +36,13 @@ export default function NotionProductImporter({ onProductImport }: NotionProduct
         throw new Error(data.error || 'Failed to import product from Notion');
       }
       
-      onProductImport(data);
+      // Ensure fullDescription is a string
+      if (Array.isArray(data.fullDescription)) {
+        data.fullDescription = data.fullDescription.join('\n');
+      }
+      
       reset(data);
+      onProductImport(data);
     } catch (error: unknown) {
       console.error('Error importing product from Notion:', error);
       let errorMessage = 'Error al importar el producto de Notion.';
@@ -52,7 +55,7 @@ export default function NotionProductImporter({ onProductImport }: NotionProduct
     } finally {
       setIsLoading(false);
     }
-  };
+  }
 
   return (
     <div className="flex flex-col space-y-2 mb-4">
